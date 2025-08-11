@@ -19,7 +19,7 @@ Config.UnemployedJobName = 'unemployed'
 Config.UseJobsCreator = false -- only for jaksam's jobcreator (resouerce name: jobs_creator)
 
 Config.Jobs = {
-    ['police'] = {
+    ['vcstyling'] = {
         society = nil,
         logo = 'police.png',
         color = 'blue',
