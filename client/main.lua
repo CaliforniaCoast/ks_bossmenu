@@ -80,19 +80,6 @@ RegisterNetEvent('ks_bossmenu:openMenu', function()
     end
 end)
 
--- This is the function to open the menu.
-RegisterNetEvent('ks_bossmenu:openMenu', function()
-    local jobName = ESX.PlayerData.job.name
-    local jobConfig = Config.Jobs[jobName]
-    
-    if jobConfig and tableContains(jobConfig.grades, ESX.PlayerData.job.grade) then
-        openNUI({
-            color = jobConfig.color,
-            logo = jobConfig.logo
-        })
-    end
-end)
-
 -- This section checks the player's grade.
 function tableContains(tbl, val)
     for _, v in ipairs(tbl) do
