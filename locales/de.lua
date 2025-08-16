@@ -7,6 +7,7 @@
 ]]
 
 Locales['de'] = {
+    ['ox_target'] = 'Boss Menü',
     ['help_notification'] = 'Drücke ~INPUT_CONTEXT~ um das Menü zu öffnen',
 
     ['action_change_salary'] = '%s: %s',
