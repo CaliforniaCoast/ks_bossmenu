@@ -20,10 +20,10 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th style="font-weight: bold;"><b>#</b></th>
-                    <th style="font-weight: bold;"><b>{{ $t('account.table_action') }}</b></th>
-                    <th style="font-weight: bold;"><b>{{ $t('account.table_employee') }}</b></th>
-                    <th style="font-weight: bold;"><b>{{ $t('account.table_amount') }}</b></th>
+                    <th style="font-weight: bold;">#</th>
+                    <th style="font-weight: bold;">{{ $t('account.table_action') }}</th>
+                    <th style="font-weight: bold;">{{ $t('account.table_employee') }}</th>
+                    <th style="font-weight: bold;">{{ $t('account.table_amount') }}</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">

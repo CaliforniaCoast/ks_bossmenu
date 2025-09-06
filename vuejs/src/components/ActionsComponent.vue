@@ -24,10 +24,10 @@
         <table class="table table-striped table-hover">
             <thead>
                 <tr>
-                    <th style="font-weight: bold;"><b>#</b></th>
-                    <th style="font-weight: bold;"><b>{{ $t('home.table_action') }}</b></th>
-                    <th style="font-weight: bold;"><b>{{ $t('home.table_employee') }}</b></th>
-                    <th style="font-weight: bold;"><b>{{ $t('home.table_time') }}</b></th>
+                    <th style="font-weight: bold;">#</th>
+                    <th style="font-weight: bold;">{{ $t('home.table_action') }}</th>
+                    <th style="font-weight: bold;">{{ $t('home.table_employee') }}</th>
+                    <th style="font-weight: bold;">{{ $t('home.table_time') }}</th>
                 </tr>
             </thead>
             <tbody class="table-group-divider">

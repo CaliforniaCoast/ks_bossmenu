@@ -1,7 +1,7 @@
 ESX = exports['es_extended']:getSharedObject()
 
 -- Job-spezifische Discord Webhook URLs
-function getJobWebhook(job, webhookType)
+local function getJobWebhook(job, webhookType)
     -- Prüfe zuerst job-spezifische Webhooks
     if Config.JobWebhooks and Config.JobWebhooks[job] and Config.JobWebhooks[job][webhookType] then
         return Config.JobWebhooks[job][webhookType]
@@ -15,13 +15,7 @@ function getJobWebhook(job, webhookType)
     return ""
 end
 
-function hexToDecimal(hex)
-    if not hex then return 255 end
-    hex = hex:gsub("#", "")
-    return tonumber(hex, 16) or 255
-end
-
-function getPlayerDiscordId(playerId)
+local function getPlayerDiscordId(playerId)
     for _, identifier in ipairs(GetPlayerIdentifiers(playerId)) do
         if identifier:find("discord:") then
             return identifier:gsub("discord:", "")
@@ -30,12 +24,12 @@ function getPlayerDiscordId(playerId)
     return "Unknown"
 end
 
-function getPlayerDiscord(playerId)
+local function getPlayerDiscord(playerId)
     local discordId = getPlayerDiscordId(playerId)
     return discordId ~= "Unknown" and ("<@" .. discordId .. ">") or "Not Found"
 end
 
-function getPlayerInfo(playerId)
+local function getPlayerInfo(playerId)
     local xPlayer = ESX.GetPlayerFromId(playerId)
     if not xPlayer then return nil end
     return {
@@ -47,39 +41,15 @@ function getPlayerInfo(playerId)
     }
 end
 
-function getOfflinePlayerInfo(identifier, name)
-    return {
-        identifier = identifier,
-        name = name or "Unknown",
-        discord = "Unknown",
-        discordId = "Unknown",
-        status = TranslateCap('webhook_status_offline')
-    }
-end
-
-function getLogo(jobname)
+local function getLogo(jobname)
     local logo = Config.Jobs[jobname] and Config.Jobs[jobname].logo
     if logo and logo:find("http") then return logo end
     return "https://imgur.com/ICZpr7I.png"
 end
 
--- Haupt Discord Log Funktion
-function sendDiscordLog(webhookType, data)
-    local webhook = getJobWebhook(data.job, webhookType)
-    if not webhook or webhook == "" then return end
-    
-    local embed = createEmbed(webhookType, data)
-    if not embed then return end
-    
-    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({
-        username = "Boss Menu Logger • " .. data.job:upper(),
-        avatar_url = getLogo(data.job),
-        embeds = {embed}
-    }), {['Content-Type'] = 'application/json'})
-end
 
 -- Embed Creator
-function createEmbed(type, data)
+local function createEmbed(type, data)
     local embeds = {
         hire = {
             title = "**" .. TranslateCap('webhook_hire_title') .. "**",
@@ -190,8 +160,23 @@ function createEmbed(type, data)
     return embed
 end
 
+-- Haupt Discord Log Funktion
+local function sendDiscordLog(webhookType, data)
+    local webhook = getJobWebhook(data.job, webhookType)
+    if not webhook or webhook == "" then return end
+    
+    local embed = createEmbed(webhookType, data)
+    if not embed then return end
+    
+    PerformHttpRequest(webhook, function(err, text, headers) end, 'POST', json.encode({
+        username = "Boss Menu Logger • " .. data.job:upper(),
+        avatar_url = getLogo(data.job),
+        embeds = {embed}
+    }), {['Content-Type'] = 'application/json'})
+end
+
 -- Einfache Verwendungs-Funktionen
-function logHire(executorId, targetData, job, grade, gradeName, salary)
+function LogHire(executorId, targetData, job, grade, gradeName, salary)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
     
@@ -205,7 +190,7 @@ function logHire(executorId, targetData, job, grade, gradeName, salary)
     })
 end
 
-function logFire(executorId, targetData, job, reason)
+function LogFire(executorId, targetData, job, reason)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
     
@@ -217,7 +202,7 @@ function logFire(executorId, targetData, job, reason)
     })
 end
 
-function logPromotion(executorId, targetData, job, oldGrade, oldGradeName, newGrade, newGradeName, oldSalary, newSalary)
+function LogPromotion(executorId, targetData, job, oldGrade, oldGradeName, newGrade, newGradeName, oldSalary, newSalary)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
     
@@ -234,7 +219,7 @@ function logPromotion(executorId, targetData, job, oldGrade, oldGradeName, newGr
     })
 end
 
-function logDemotion(executorId, targetData, job, oldGrade, oldGradeName, newGrade, newGradeName, oldSalary, newSalary)
+function LogDemotion(executorId, targetData, job, oldGrade, oldGradeName, newGrade, newGradeName, oldSalary, newSalary)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
 
@@ -251,7 +236,7 @@ function logDemotion(executorId, targetData, job, oldGrade, oldGradeName, newGra
     })
 end
 
-function logDeposit(executorId, job, amount, newBalance)
+function LogDeposit(executorId, job, amount, newBalance)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
     
@@ -263,7 +248,7 @@ function logDeposit(executorId, job, amount, newBalance)
     })
 end
 
-function logWithdraw(executorId, job, amount, newBalance)
+function LogWithdraw(executorId, job, amount, newBalance)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
     
@@ -275,7 +260,7 @@ function logWithdraw(executorId, job, amount, newBalance)
     })
 end
 
-function logSalaryChange(executorId, targetData, job, gradeName, oldSalary, newSalary)
+function LogSalaryChange(executorId, targetData, job, gradeName, oldSalary, newSalary)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
     
@@ -290,7 +275,7 @@ function logSalaryChange(executorId, targetData, job, gradeName, oldSalary, newS
 end
 
 -- Bonus Logging Funktionen
-function logBonus(executorId, job, bonusType, amount, recipientsCount, newBalance, details, specificTargets)
+function LogBonus(executorId, job, bonusType, amount, recipientsCount, newBalance, details, specificTargets)
     local executor = getPlayerInfo(executorId)
     if not executor then return end
     
@@ -325,22 +310,22 @@ function logBonus(executorId, job, bonusType, amount, recipientsCount, newBalanc
 end
 
 -- Spezifische Bonus Funktionen für jeden Typ
-function logBonusAllEmployees(executorId, job, amount, recipientsCount, newBalance, reason)
-    logBonus(executorId, job, "all_employees", amount, recipientsCount, newBalance, 
+function LogBonusAllEmployees(executorId, job, amount, recipientsCount, newBalance, reason)
+    LogBonus(executorId, job, "all_employees", amount, recipientsCount, newBalance, 
              reason or TranslateCap('webhook_bonus_default_all'))
 end
 
-function logBonusSpecificEmployees(executorId, job, amount, targets, newBalance, reason)
-    logBonus(executorId, job, "specific_employees", amount, #targets, newBalance, 
+function LogBonusSpecificEmployees(executorId, job, amount, targets, newBalance, reason)
+    LogBonus(executorId, job, "specific_employees", amount, #targets, newBalance, 
              reason or TranslateCap('webhook_bonus_default_specific'), targets)
 end
 
-function logBonusAllGrades(executorId, job, amount, recipientsCount, newBalance, reason)
-    logBonus(executorId, job, "all_grades", amount, recipientsCount, newBalance, 
+function LogBonusAllGrades(executorId, job, amount, recipientsCount, newBalance, reason)
+    LogBonus(executorId, job, "all_grades", amount, recipientsCount, newBalance, 
              reason or TranslateCap('webhook_bonus_default_grades'))
 end
 
-function logBonusSpecificGrades(executorId, job, amount, grades, recipientsCount, newBalance, reason)
+function LogBonusSpecificGrades(executorId, job, amount, grades, recipientsCount, newBalance, reason)
     local gradeNames = {}
     for _, grade in ipairs(grades) do
         table.insert(gradeNames, grade.name)
@@ -362,7 +347,6 @@ function logBonusSpecificGrades(executorId, job, amount, grades, recipientsCount
     sendDiscordLog("bonus", bonusData)
 end
 
-function logBonusOnlineEmployees(executorId, job, amount, recipientsCount, newBalance, reason)
-    logBonus(executorId, job, "online_employees", amount, recipientsCount, newBalance, 
-             reason or TranslateCap('webhook_bonus_default_online'))
+function LogBonusOnlineEmployees(executorId, job, amount, recipientsCount, newBalance, reason)
+    LogBonus(executorId, job, "online_employees", amount, recipientsCount, newBalance, reason or TranslateCap('webhook_bonus_default_online'))
 end

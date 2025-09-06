@@ -34,7 +34,7 @@ Citizen.CreateThread(function()
                         icon = 'fa-solid fa-briefcase', 
                         label = TranslateCap('ox_target'),
                         canInteract = function()
-                            return ESX.PlayerData.job.name == jobName and tableContains(jobConfig.grades, ESX.PlayerData.job.grade)
+                            return ESX.PlayerData.job.name == jobName and TableContains(jobConfig.grades, ESX.PlayerData.job.grade)
                         end,
                         distance = 2
                     }
@@ -46,9 +46,10 @@ Citizen.CreateThread(function()
             local sleep = 3000
             
             for k, v in pairs(Config.Jobs) do
-                if ESX.PlayerData.job.name == k and tableContains(v.grades, ESX.PlayerData.job.grade) then
-                    local distance = GetDistanceBetweenCoords(GetEntityCoords(PlayerPedId()), v.marker.coords.x, v.marker.coords.y, v.marker.coords.z, true)
-                    
+                if ESX.PlayerData.job.name == k and TableContains(v.grades, ESX.PlayerData.job.grade) then
+                    local coords = GetEntityCoords(PlayerPedId())
+                    local distance = GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z, true)
+
                     if distance < 20.0 then
                         sleep = 0
                         DrawMarker(v.marker.type, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.scale.x, v.marker.scale.y, v.marker.scale.z, v.marker.color.r, v.marker.color.g, v.marker.color.b, v.marker.color.a, false, true, 2, false, nil, nil, false)
@@ -72,7 +73,7 @@ RegisterNetEvent('ks_bossmenu:openMenu', function()
     local jobName = ESX.PlayerData.job.name
     local jobConfig = Config.Jobs[jobName]
     
-    if jobConfig and tableContains(jobConfig.grades, ESX.PlayerData.job.grade) then
+    if jobConfig and TableContains(jobConfig.grades, ESX.PlayerData.job.grade) then
         openNUI({
             color = jobConfig.color,
             logo = jobConfig.logo
@@ -81,7 +82,7 @@ RegisterNetEvent('ks_bossmenu:openMenu', function()
 end)
 
 -- This section checks the player's grade.
-function tableContains(tbl, val)
+function TableContains(tbl, val)
     for _, v in ipairs(tbl) do
         if v == val then
             return true

@@ -66,8 +66,6 @@ Locales['fr'] = {
     ['webhook_salary_by'] = 'Modifié par',
     ['webhook_salary_position'] = 'Position',
     ['webhook_salary_old'] = 'Ancien Salaire',
-    ['webhook_salary_new'] = 'Nouveau Salaire',
-    ['webhook_salary_difference'] = 'Différence',
 
     ['webhook_bonus_title'] = 'PRIME VERSÉE',
     ['webhook_bonus_by'] = 'Versée par',

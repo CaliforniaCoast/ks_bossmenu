@@ -21,7 +21,7 @@ AddEventHandler('esx:playerLoaded', function (source, xPlayer)
                     ['@id'] = result[i].id
                 })
 
-                removeMoney(source, result[i].job, result[i].amount)
+                RemoveMoney(source, result[i].job, result[i].amount)
 
                 xPlayer.addMoney(result[i].amount)
 

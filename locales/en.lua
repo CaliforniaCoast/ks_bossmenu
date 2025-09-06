@@ -66,8 +66,6 @@ Locales['en'] = {
     ['webhook_salary_by'] = 'Changed by',
     ['webhook_salary_position'] = 'Position',
     ['webhook_salary_old'] = 'Previous Salary',
-    ['webhook_salary_new'] = 'New Salary',
-    ['webhook_salary_difference'] = 'Difference',
 
     ['webhook_bonus_title'] = 'BONUS PAID',
     ['webhook_bonus_by'] = 'Paid by',

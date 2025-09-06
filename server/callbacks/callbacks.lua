@@ -174,7 +174,7 @@ ESX.RegisterServerCallback('ks_bossmenu:addEmployee', function(source, cb, data)
         if xTarget and xTarget.getJob().name ~= xPlayer.getJob().name then
             xTarget.setJob(xPlayer.getJob().name, 0)
             
-            addAction(source, {
+            AddAction(source, {
                 action = 'add_employee',
                 data = {
                     target = xTarget.getName(),
@@ -189,7 +189,7 @@ ESX.RegisterServerCallback('ks_bossmenu:addEmployee', function(source, cb, data)
             local gradeName = getGradeLabel(0, xPlayer.getJob().name)
             local salary = getSalary(0, xPlayer.getJob().name)
             
-            logHire(source, targetData, xPlayer.getJob().name, 0, gradeName, salary)
+            LogHire(source, targetData, xPlayer.getJob().name, 0, gradeName, salary)
 
             cb(true)
         else
@@ -242,7 +242,7 @@ ESX.RegisterServerCallback('ks_bossmenu:promoteEmployee', function(source, cb, d
                     xPlayer.getJob().name, targetJobGrade + 1
                 })
                 
-                addAction(source, {
+                AddAction(source, {
                     action = 'promote_employee',
                     data = {
                         target = targetFirstname .. ' ' .. targetLastname,
@@ -260,7 +260,7 @@ ESX.RegisterServerCallback('ks_bossmenu:promoteEmployee', function(source, cb, d
                 local oldSalary = getSalary(targetJobGrade, xPlayer.getJob().name)
                 local newSalary = getSalary(targetJobGrade + 1, xPlayer.getJob().name)
                 
-                logPromotion(source, targetData, xPlayer.getJob().name, targetJobGrade, oldGradeName, 
+                LogPromotion(source, targetData, xPlayer.getJob().name, targetJobGrade, oldGradeName, 
                         targetJobGrade + 1, newGradeName, oldSalary, newSalary)
 
                 cb('success')
@@ -315,7 +315,7 @@ ESX.RegisterServerCallback('ks_bossmenu:demoteEmployee', function(source, cb, da
                     xPlayer.getJob().name, targetJobGrade - 1
                 })
 
-                addAction(source, {
+                AddAction(source, {
                     action = 'demote_employee',
                     data = {
                         target = targetFirstname .. ' ' .. targetLastname,
@@ -334,7 +334,7 @@ ESX.RegisterServerCallback('ks_bossmenu:demoteEmployee', function(source, cb, da
                 local oldSalary = getSalary(targetJobGrade, xPlayer.getJob().name)
                 local newSalary = getSalary(targetJobGrade - 1, xPlayer.getJob().name)
                 
-                logDemotion(source, targetData, xPlayer.getJob().name, targetJobGrade, oldGradeName, 
+                LogDemotion(source, targetData, xPlayer.getJob().name, targetJobGrade, oldGradeName, 
                            targetJobGrade - 1, newGradeName, oldSalary, newSalary)
 
                 cb('success')
@@ -375,7 +375,7 @@ ESX.RegisterServerCallback('ks_bossmenu:fireEmployee', function(source, cb, data
             Config.UnemployedJobName, 0, targetIdentifier
         }, function(affectedRows)
             if affectedRows > 0 then
-                addAction(source, {
+                AddAction(source, {
                     action = 'fire_employee',
                     data = {
                         target = targetFirstname .. ' ' .. targetLastname,
@@ -388,7 +388,7 @@ ESX.RegisterServerCallback('ks_bossmenu:fireEmployee', function(source, cb, data
                     identifier = targetIdentifier
                 }
                 
-                logFire(source, targetData, xPlayer.getJob().name)
+                LogFire(source, targetData, xPlayer.getJob().name)
                 
                 cb('success')
             else
@@ -412,7 +412,7 @@ ESX.RegisterServerCallback('ks_bossmenu:changeSalary', function(source, cb, data
                 salary, xPlayer.getJob().name, grade
             }, function(affectedRows)
                 if affectedRows > 0 then
-                    addAction(source, {
+                    AddAction(source, {
                         action = 'change_salary',
                         data = {
                             grade = getGradeLabel(grade, xPlayer.getJob().name),
@@ -426,7 +426,7 @@ ESX.RegisterServerCallback('ks_bossmenu:changeSalary', function(source, cb, data
                         identifier = "system_grade_change"
                     }
                     
-                    logSalaryChange(source, targetData, xPlayer.getJob().name, 
+                    LogSalaryChange(source, targetData, xPlayer.getJob().name, 
                                   getGradeLabel(grade, xPlayer.getJob().name), oldSalary, salary)
                     
                     cb(true)
@@ -462,14 +462,14 @@ ESX.RegisterServerCallback('ks_bossmenu:depositMoney', function(source, cb, data
         if Config.UseJobsCreator then
             exports["jobs_creator"]:addSocietyMoney(xPlayer.getJob().name, amount)
             xPlayer.removeAccountMoney('money', amount)
-            addTransaction(source, {
+            AddTransaction(source, {
                 action = 'deposit',
                 amount = amount,
             })
             
             -- Discord Logging
             local newBalance = (societyMoney and societyMoney.money or 0) + amount
-            logDeposit(source, xPlayer.getJob().name, amount, newBalance)
+            LogDeposit(source, xPlayer.getJob().name, amount, newBalance)
             
             cb('success')
             return
@@ -480,14 +480,14 @@ ESX.RegisterServerCallback('ks_bossmenu:depositMoney', function(source, cb, data
         }, function(affectedRows)
             if affectedRows > 0 then
                 xPlayer.removeAccountMoney('money', amount)
-                addTransaction(source, {
+                AddTransaction(source, {
                     action = 'deposit',
                     amount = amount,
                 })
                 
                 -- Discord Logging
                 local newBalance = (societyMoney and societyMoney.money or 0) + amount
-                logDeposit(source, xPlayer.getJob().name, amount, newBalance)
+                LogDeposit(source, xPlayer.getJob().name, amount, newBalance)
                 
                 cb('success')
             else
@@ -517,14 +517,14 @@ ESX.RegisterServerCallback('ks_bossmenu:withdrawMoney', function(source, cb, dat
         if Config.UseJobsCreator then
             exports["jobs_creator"]:removeSocietyMoney(xPlayer.getJob().name, amount)
             xPlayer.addAccountMoney('money', amount)
-            addTransaction(source, {
+            AddTransaction(source, {
                 action = 'withdraw',
                 amount = amount,
             })
             
             -- Discord Logging
             local newBalance = (societyMoney and societyMoney.money or 0) - amount
-            logWithdraw(source, xPlayer.getJob().name, amount, newBalance)
+            LogWithdraw(source, xPlayer.getJob().name, amount, newBalance)
             
             cb('success')
             return
@@ -535,14 +535,14 @@ ESX.RegisterServerCallback('ks_bossmenu:withdrawMoney', function(source, cb, dat
         }, function(affectedRows)
             if affectedRows > 0 then
                 xPlayer.addAccountMoney('money', amount)
-                addTransaction(source, {
+                AddTransaction(source, {
                     action = 'withdraw',
                     amount = amount,
                 })
                 
                 -- Discord Logging
                 local newBalance = societyMoney.money - amount
-                logWithdraw(source, xPlayer.getJob().name, amount, newBalance)
+                LogWithdraw(source, xPlayer.getJob().name, amount, newBalance)
                 
                 cb('success')
             else
@@ -584,7 +584,7 @@ function IsPlayerAllowed(source)
 
     for k, v in pairs(Config.Jobs) do
         if xPlayer.getJob().name == k then
-            if tableContains(v.grades, xPlayer.getJob().grade) then
+            if TableContains(v.grades, xPlayer.getJob().grade) then
                 return true
             end
         end
@@ -593,7 +593,7 @@ function IsPlayerAllowed(source)
     return false
 end
 
-function tableContains(tbl, val)
+function TableContains(tbl, val)
     for _, v in ipairs(tbl) do
         if v == val then
             return true

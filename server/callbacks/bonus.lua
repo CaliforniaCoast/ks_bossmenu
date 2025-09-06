@@ -40,7 +40,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToSelectedEmployees', function(
         for _, employee in ipairs(employees) do
             local xTarget = ESX.GetPlayerFromIdentifier(employee.identifier)
             if xTarget then
-                removeMoney(source, job.name, amount)
+                RemoveMoney(source, job.name, amount)
                 xTarget.addMoney(amount)
                 TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
             else
@@ -60,7 +60,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToSelectedEmployees', function(
         
         -- Discord Logging
         local newBalance = societyMoney.money - totalCost
-        logBonusSpecificEmployees(source, job.name, amount, targetsList, newBalance, reason)
+        LogBonusSpecificEmployees(source, job.name, amount, targetsList, newBalance, reason)
         
         cb(true, 'bonus_given')
     else
@@ -124,7 +124,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToRanks', function(source, cb, 
                         local xTarget = ESX.GetPlayerFromIdentifier(employee.identifier)
                         
                         if xTarget then
-                            removeMoney(source, job.name, amount)
+                            RemoveMoney(source, job.name, amount)
                             xTarget.addMoney(amount)
                             TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
                         else
@@ -139,7 +139,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToRanks', function(source, cb, 
                 
                 -- Discord Logging
                 local newBalance = societyMoney.money - totalCost
-                logBonusSpecificGrades(source, job.name, amount, gradesList, processedCount, newBalance, reason)
+                LogBonusSpecificGrades(source, job.name, amount, gradesList, processedCount, newBalance, reason)
                 
                 cb(true, 'bonus_given')
             else
@@ -186,7 +186,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllEmployees', function(sourc
                     local xTarget = ESX.GetPlayerFromIdentifier(employee.identifier)
                     
                     if xTarget then
-                        removeMoney(source, job.name, amount)
+                        RemoveMoney(source, job.name, amount)
                         xTarget.addMoney(amount)
                         TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
                     else
@@ -201,7 +201,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllEmployees', function(sourc
                 
                 -- Discord Logging
                 local newBalance = societyMoney.money - totalCost
-                logBonusAllEmployees(source, job.name, amount, processedCount, newBalance, reason)
+                LogBonusAllEmployees(source, job.name, amount, processedCount, newBalance, reason)
                 
                 cb(true, 'bonus_given')
             else
@@ -248,7 +248,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllRanks', function(source, c
                     local xTarget = ESX.GetPlayerFromIdentifier(employee.identifier)
                     
                     if xTarget then
-                        removeMoney(source, job.name, amount)
+                        RemoveMoney(source, job.name, amount)
                         xTarget.addMoney(amount)
                         TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
                     else
@@ -263,7 +263,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllRanks', function(source, c
                 
                 -- Discord Logging
                 local newBalance = societyMoney.money - totalCost
-                logBonusAllGrades(source, job.name, amount, processedCount, newBalance, reason)
+                LogBonusAllGrades(source, job.name, amount, processedCount, newBalance, reason)
                 
                 cb(true, 'bonus_given')
             else
@@ -318,7 +318,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToOnlineEmployees', function(so
         -- Führe Bonus-Auszahlung durch
         for _, xTarget in pairs(xPlayers) do
             if xTarget.getJob().name == job.name then
-                removeMoney(source, job.name, amount)
+                RemoveMoney(source, job.name, amount)
                 xTarget.addMoney(amount)
                 TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
             end
@@ -326,7 +326,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToOnlineEmployees', function(so
         
         -- Discord Logging
         local newBalance = societyMoney.money - totalCost
-        logBonusOnlineEmployees(source, job.name, amount, processedCount, newBalance, reason)
+        LogBonusOnlineEmployees(source, job.name, amount, processedCount, newBalance, reason)
         
         cb(true, 'bonus_given')
     else

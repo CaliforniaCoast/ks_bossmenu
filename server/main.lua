@@ -8,7 +8,7 @@
 
 ESX = exports['es_extended']:getSharedObject()
 
-function addAction(source, data)
+function AddAction(source, data)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if not IsPlayerAllowed(source) then return false end
@@ -22,7 +22,7 @@ function addAction(source, data)
     })
 end
 
-function addTransaction(source, data)
+function AddTransaction(source, data)
     local xPlayer = ESX.GetPlayerFromId(source)
 
     if not IsPlayerAllowed(source) then return false end
@@ -36,7 +36,7 @@ function addTransaction(source, data)
     })
 end
 
-function removeMoney(source, jobname, amount)
+function RemoveMoney(source, jobname, amount)
     if Config.UseJobsCreator then
         exports["jobs_creator"]:removeSocietyMoney(jobname, amount)
         return
@@ -46,4 +46,4 @@ function removeMoney(source, jobname, amount)
         amount,
         Config.Jobs[jobname] and Config.Jobs[jobname].society or 'society_' .. jobname
     })
-end 
+end
