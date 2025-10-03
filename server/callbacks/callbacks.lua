@@ -13,11 +13,11 @@ ESX.RegisterServerCallback('ks_bossmenu:getEmployees', function(source, cb, jobN
     local employees = 0
     local onduty = 0
 
-    MySQL.single('SELECT COUNT(*) as count FROM users WHERE job = ?', {
+    local result = MySQL.single.await('SELECT COUNT(*) as count FROM users WHERE job = ?', {
         jobName
-    }, function(result)
-        employees = result.count
-    end)
+    })
+
+    employees = result.count
 
     for _, xPlayer in ipairs(xPlayers) do
         if xPlayer.getJob().name == jobName then
