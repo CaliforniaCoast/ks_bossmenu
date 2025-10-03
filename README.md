@@ -1,4 +1,4 @@
-![cover_bossmenu|690x388](https://forum-cfx-re.akamaized.net/original/5X/4/2/2/b/422b657a06e9a11730ac50d1c7cc7044582664fa.jpeg)
+![cover_bossmenu|690x388](https://forum-cfx-re.akamaized.net/original/5X/4/2/2/b/422b657a06e9a11730ac50d1c7cc7044582664fa.jpeg)](https://forum-cfx-re.akamaized.net/original/5X/0/5/d/7/05d7bffbc18a0419f53b0078ad6696e8e29a0d3e.jpeg
 
 # KS Bossmenu for ESX
 
