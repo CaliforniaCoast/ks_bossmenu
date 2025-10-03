@@ -1,9 +1,9 @@
 ![cover_bossmenu|690x388](https://forum-cfx-re.akamaized.net/original/5X/0/5/d/7/05d7bffbc18a0419f53b0078ad6696e8e29a0d3e.jpeg)
 
-# KS Bossmenu for ESX
+# KS Bossmenu for ESX | FiveM Bossmenu
 
-A modern, feature-rich boss menu for ESX-based servers.  
-Manage your job, employees, salaries, and society account with a clean and responsive Vue 3 interface.
+A modern, feature-rich FiveM boss menu for ESX-based servers.  
+Manage your job, employees, salaries, bonus and society account with a clean and responsive Vue 3 interface.
 
 # [⬇️ Download](https://github.com/Kxiox/ks_bossmenu/releases)
 
@@ -14,6 +14,7 @@ Manage your job, employees, salaries, and society account with a clean and respo
 - **Customizable:** Change colors, logos, and currency per job in `config.lua`.
 - **Employee Management:** Add, promote, demote, or fire employees directly from the menu.
 - **Salary Management:** View and change job grade salaries.
+- **Bonus Management:** Give your employees bonus
 - **Society Account:** Deposit and withdraw money, view all transactions.
 - **Action Log:** See the latest actions performed by bosses.
 - **Permissions:** Only configured grades can access the boss menu.
@@ -36,7 +37,7 @@ Manage your job, employees, salaries, and society account with a clean and respo
 
 - **Add your own logo:** Place your image in `img` and set the filename in `config.lua`.
 - **Change colors and currency** in `config.lua`.
-- **Add more translations** by creating new JSON files in `locales`.
+- **Add more translations** by following this [Guide](https://kxiox.gitbook.io/kxiox-scripts/add-your-own-language).
 
 ## Support
 [☎️ Discord](https://discord.gg/ZcAtT6ShAk)
