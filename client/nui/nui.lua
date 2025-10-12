@@ -151,7 +151,6 @@ end)
 
 function getStats(data)
     ESX.TriggerServerCallback('ks_bossmenu:getEmployees', function(employees, onduty, factionmoney)
-        print(employees)
         SendNUIMessage({
             action = 'getStats',
             color = data.color,
