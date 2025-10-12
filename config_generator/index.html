@@ -1,0 +1,349 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>ks_bossmenu Config Editor</title>
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    :root {
+      --clr-bg: #f4f8fb;
+      --clr-section: #fff;
+      --clr-text: #222;
+      --clr-border: #dddddd;
+      --clr-job: #f5f7fb;
+    }
+    [data-theme="dark"] {
+      --clr-bg: #17191c;
+      --clr-section: #22242b;
+      --clr-text: #f0f2f5;
+      --clr-border: #31313a;
+      --clr-job: #282a34;
+    }
+    body {
+      background-color: var(--clr-bg);
+      color: var(--clr-text);
+    }
+    .container {
+      background: var(--clr-section);
+      color: var(--clr-text);
+      border-radius: 16px;
+      max-width: 980px;
+      margin-top: 40px;
+      margin-bottom: 40px;
+      padding: 28px;
+      box-shadow: 0 0 12px rgba(0,0,0,0.07);
+      border: 1px solid var(--clr-border);
+    }
+    .form-label, .form-check-label {
+      color: var(--clr-text);
+    }
+    select, input, .form-select, .form-control {
+      background-color: var(--clr-section);
+      color: var(--clr-text);
+      border: 1px solid var(--clr-border);
+    }
+    [data-theme="dark"] select:focus, [data-theme="dark"] input:focus, [data-theme="dark"] .form-select:focus, [data-theme="dark"] .form-control:focus {
+      background-color: #494952;
+      color: white;
+      border-color: #0059ae;
+      box-shadow: 0 0 0 0.2rem rgba(0,123,255,.25);
+    }
+    .job-box {
+      background: var(--clr-job);
+      color: var(--clr-text);
+      border-radius: 8px;
+      padding: 16px;
+      margin-bottom: 14px;
+      position: relative;
+      border: 1px solid var(--clr-border);
+    }
+    .remove-job-btn { position:absolute; top:10px; right:10px; }
+    .btn-darkmode {
+      float: right;
+    }
+    .form-switch .form-check-input:checked {
+      background-color: #0059ae;
+      border-color: #0059ae;
+    }
+    .btn-success, .btn-primary, .btn-outline-primary, .btn-danger {
+      color: #fff;
+    }
+    [data-theme="dark"] .btn-outline-primary {
+      color: #fff;
+      border-color: #007bff;
+    }
+    /* Adapt the download link */
+    #output a.btn-success {
+      margin-top: 10px;
+    }
+  </style>
+</head>
+<body>
+<div class="container" id="mainContainer">
+  <h2>
+    ks_bossmenu Config Editor
+    <button type="button" class="btn btn-secondary btn-sm btn-darkmode" id="darkModeToggle" title="Toggle dark mode">🌙</button>
+  </h2>
+  <div class="mb-4">
+    <label class="form-label">Import config.lua</label>
+    <input type="file" id="importFile" accept=".lua,.txt" class="form-control">
+  </div>
+  <form id="configForm">
+    <div class="mb-3">
+      <label class="form-label">Locale</label>
+      <select class="form-select" name="Locale">
+        <option value="en">English</option>
+        <option value="de">German</option>
+        <option value="fr">French</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Currency Symbol</label>
+      <input type="text" class="form-control" name="Currency" value="$">
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Timestamp Format</label>
+      <select class="form-select" name="Timestamp">
+        <option value="us">US (MM/DD/YYYY)</option>
+        <option value="eu">EU (DD.MM.YYYY)</option>
+      </select>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Unemployed Job Name</label>
+      <input type="text" class="form-control" name="UnemployedJobName" value="unemployed">
+    </div>
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="UseTarget" id="UseTarget">
+        <label class="form-check-label" for="UseTarget">Use ox_target for boss menu</label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="UseJobsCreator" id="UseJobsCreator">
+        <label class="form-check-label" for="UseJobsCreator">Use jobcreator (jaksam)</label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="EnableCommand" id="EnableCommand">
+        <label class="form-check-label" for="EnableCommand">Enable command for boss menu</label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <label class="form-label">Command Name</label>
+      <input type="text" class="form-control" name="CommandName" value="bossmenu">
+    </div>
+    <hr>
+    <h4>Jobs</h4>
+    <div id="jobsContainer"></div>
+    <button type="button" class="btn btn-outline-primary" id="addJobBtn">Add new job</button>
+    <button type="submit" class="btn btn-primary mt-3 float-end">Download config.lua</button>
+  </form>
+  <div id="output" class="mt-5"></div>
+</div>
+<script>
+let jobIndex = 0;
+function createJobBox(defaults = null) {
+  const idx = jobIndex++;
+  const d = defaults || {
+    jobName: "police", logo: "police.png", color: "blue", grades: "4",
+    marker_type:1, marker_x:441, marker_y:-981, marker_z:30,
+    marker_scale_x:1.5, marker_scale_y:1.5, marker_scale_z:1.5,
+    marker_r:0, marker_g:0, marker_b:255, marker_a:200
+  };
+  const b = document.createElement("div");
+  b.className = "job-box";
+  b.id = "job_" + idx;
+  b.innerHTML = `
+    <button type="button" class="btn btn-danger btn-sm remove-job-btn" onclick="removeJob('${b.id}')">Remove</button>
+    <div class="mb-2"><label class="form-label">Job Name</label>
+      <input type="text" class="form-control" name="jobName" value="${d.jobName}">
+    </div>
+    <div class="mb-2"><label class="form-label">Color</label>
+      <input type="text" class="form-control" name="color" value="${d.color}">
+    </div>
+    <div class="mb-2"><label class="form-label">Logo</label>
+      <input type="text" class="form-control" name="logo" value="${d.logo}">
+    </div>
+    <div class="mb-2"><label class="form-label">Grades (comma separated)</label>
+      <input type="text" class="form-control" name="grades" value="${d.grades}">
+    </div>
+    <div class="mb-2 mt-2"><strong>Marker Settings</strong></div>
+    <div class="row mb-2">
+      <div class="col-2"><label class="form-label">Type</label><input type="number" class="form-control" name="marker_type" value="${d.marker_type}"></div>
+      <div class="col-3"><label class="form-label">X</label><input type="number" step="any" class="form-control" name="marker_x" value="${d.marker_x}"></div>
+      <div class="col-3"><label class="form-label">Y</label><input type="number" step="any" class="form-control" name="marker_y" value="${d.marker_y}"></div>
+      <div class="col-3"><label class="form-label">Z</label><input type="number" step="any" class="form-control" name="marker_z" value="${d.marker_z}"></div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-3"><label class="form-label">Scale X</label><input type="number" step="any" class="form-control" name="marker_scale_x" value="${d.marker_scale_x}"></div>
+      <div class="col-3"><label class="form-label">Scale Y</label><input type="number" step="any" class="form-control" name="marker_scale_y" value="${d.marker_scale_y}"></div>
+      <div class="col-3"><label class="form-label">Scale Z</label><input type="number" step="any" class="form-control" name="marker_scale_z" value="${d.marker_scale_z}"></div>
+    </div>
+    <div class="row mb-2">
+      <div class="col-3"><label class="form-label">Color R</label><input type="number" class="form-control" name="marker_r" value="${d.marker_r}"></div>
+      <div class="col-3"><label class="form-label">Color G</label><input type="number" class="form-control" name="marker_g" value="${d.marker_g}"></div>
+      <div class="col-3"><label class="form-label">Color B</label><input type="number" class="form-control" name="marker_b" value="${d.marker_b}"></div>
+      <div class="col-3"><label class="form-label">Alpha</label><input type="number" class="form-control" name="marker_a" value="${d.marker_a}"></div>
+    </div>
+  `;
+  document.getElementById("jobsContainer").appendChild(b);
+}
+window.removeJob = function(id) {
+  if(document.querySelectorAll("#jobsContainer .job-box").length > 1)
+    document.getElementById(id).remove();
+};
+document.getElementById("addJobBtn").onclick = function() {
+  createJobBox({jobName:"newjob", logo: "", color: "", grades:"0",
+    marker_type:1, marker_x:0, marker_y:0, marker_z:0, marker_scale_x:1.5, marker_scale_y:1.5, marker_scale_z:1.5, marker_r:0, marker_g:0, marker_b:255, marker_a:200
+  });
+};
+window.onload = function() { createJobBox(); };
+
+document.getElementById("configForm").onsubmit = function(e) {
+  e.preventDefault();
+  const form = e.target;
+  const locale = form.Locale.value;
+  const currency = form.Currency.value;
+  const timestamp = form.Timestamp.value;
+  const unemployed = form.UnemployedJobName.value;
+  const useTarget = form.UseTarget.checked;
+  const useJobsCreator = form.UseJobsCreator.checked;
+  const enableCommand = form.EnableCommand.checked;
+  const commandName = form.CommandName.value;
+
+  let jobsString = "";
+  document.querySelectorAll("#jobsContainer .job-box").forEach(box => {
+    const jn = box.querySelector("input[name='jobName']").value.trim();
+    const co = box.querySelector("input[name='color']").value.trim();
+    const lo = box.querySelector("input[name='logo']").value.trim();
+    const gstr = box.querySelector("input[name='grades']").value.trim();
+    const gradesArr = gstr.length ? gstr.split(",").map(v=>v.trim()).join(", ") : "0";
+    const t = box.querySelector("input[name='marker_type']").value;
+    const x = box.querySelector("input[name='marker_x']").value;
+    const y = box.querySelector("input[name='marker_y']").value;
+    const z = box.querySelector("input[name='marker_z']").value;
+    const sx = box.querySelector("input[name='marker_scale_x']").value;
+    const sy = box.querySelector("input[name='marker_scale_y']").value;
+    const sz = box.querySelector("input[name='marker_scale_z']").value;
+    const r = box.querySelector("input[name='marker_r']").value;
+    const g = box.querySelector("input[name='marker_g']").value;
+    const b = box.querySelector("input[name='marker_b']").value;
+    const a = box.querySelector("input[name='marker_a']").value;
+    jobsString += `    ['${jn}'] = {
+        society = nil,
+        logo = '${lo}',
+        color = '${co}',
+        grades = { ${gradesArr} },
+        marker = {
+          type = ${t},
+          coords = vector3(${x}, ${y}, ${z}),
+          scale = vector3(${sx}, ${sy}, ${sz}),
+          color = { r = ${r}, g = ${g}, b = ${b}, a = ${a} },
+        },
+    },\n`;
+  });
+
+  const luaConfig =
+`--[[
+    [https://github.com/kxiox/ks_bossmenu](https://github.com/kxiox/ks_bossmenu)
+    This file is licensed under GPL-3.0 or higher <https://www.gnu.org/licenses/gpl-3.0.en.html>
+    Copyright © 2025 Kxiox <https://github.com/kxiox>
+]]
+
+Config = {}
+
+Config.Locale = '${locale}'
+
+Config.Currency = '${currency}'
+
+Config.Timestamp = '${timestamp}'
+
+Config.UnemployedJobName = '${unemployed}'
+
+Config.UseTarget = ${useTarget ? "true" : "false"} -- Use ox_target for the boss menu (resource name: ox_target)
+
+Config.UseJobsCreator = ${useJobsCreator ? "true" : "false"} -- only for jaksam's jobcreator (resource name: jobs_creator)
+
+Config.EnableCommand = ${enableCommand ? "true" : "false"} -- Enable the command to open the boss menu | NEW
+Config.CommandName = '${commandName}' -- The name of the command | NEW
+
+Config.Jobs = {
+${jobsString}
+}
+`;
+
+  const blob = new Blob([luaConfig], {type: "text/plain"});
+  const url = URL.createObjectURL(blob);
+  document.getElementById("output").innerHTML =
+    `<a class="btn btn-success" download="config.lua" href="${url}">Download config.lua</a>`;
+};
+
+// === Import support ===
+document.getElementById("importFile").onchange = async function(e) {
+  if(!e.target.files.length) return;
+  const file = e.target.files[0];
+  const text = await file.text();
+  // Extract top-level config
+  function extract(key, str=true) {
+    const re = str ? new RegExp(`Config.${key}\\s*=\\s*'([^']*)'`) : new RegExp(`Config.${key}\\s*=\\s*(true|false)`);
+    const m = text.match(re); return m? (str? m[1]: m[1]==='true') : "";
+  }
+  document.querySelector("select[name='Locale']").value = extract("Locale") || "en";
+  document.querySelector("input[name='Currency']").value = extract("Currency") || "$";
+  document.querySelector("select[name='Timestamp']").value = extract("Timestamp") || "us";
+  document.querySelector("input[name='UnemployedJobName']").value = extract("UnemployedJobName") || "unemployed";
+  document.querySelector("input[name='UseTarget']").checked = !!extract("UseTarget",false);
+  document.querySelector("input[name='UseJobsCreator']").checked = !!extract("UseJobsCreator",false);
+  document.querySelector("input[name='EnableCommand']").checked = !!extract("EnableCommand",false);
+  document.querySelector("input[name='CommandName']").value = extract("CommandName") || "bossmenu";
+  // Jobs
+  const jobsBlock = text.match(/Config\.Jobs\s*=\s*\{([\s\S]*?)\n\}/m);
+  if(jobsBlock) {
+    document.getElementById("jobsContainer").innerHTML = "";
+    const jobs = jobsBlock[1].match(/(\[\s*'([^']+)'\s*\]\s*=\s*\{[\s\S]*?},\n)/g);
+    if(jobs) {
+      for(let job of jobs){
+        const jobName = job.match(/\[\s*'([^']+)'\s*\]/)[1];
+        const logo = job.match(/logo\s*=\s*'([^']+)'/)?.[1] || "";
+        const color = job.match(/color\s*=\s*'([^']+)'/)?.[1] || "";
+        const grades = (job.match(/grades\s*=\s*\{([^\}]*)\}/)?.[1]||"").replace(/\s+/g,"");
+        const mt = job.match(/type\s*=\s*(\d+)/)?.[1]||1;
+        const coordM = job.match(/coords\s*=\s*vector3\(([^,]+),\s*([^,]+),\s*([^)]+)\)/);
+        const marker_x = coordM?.[1]?.trim()||0, marker_y = coordM?.[2]?.trim()||0, marker_z = coordM?.[3]?.trim()||0;
+        const scaleM = job.match(/scale\s*=\s*vector3\(([^,]+),\s*([^,]+),\s*([^)]+)\)/);
+        const marker_scale_x = scaleM?.[1]?.trim()||1.5, marker_scale_y = scaleM?.[2]?.trim()||1.5, marker_scale_z = scaleM?.[3]?.trim()||1.5;
+        const cM = job.match(/color\s*=\s*\{[^{]*r\s*=\s*(\d+),\s*g\s*=\s*(\d+),\s*b\s*=\s*(\d+),\s*a\s*=\s*(\d+)\s*\}/);
+        const marker_r = cM?.[1]||0, marker_g = cM?.[2]||0, marker_b = cM?.[3]||255, marker_a = cM?.[4]||200;
+        createJobBox({
+          jobName, logo, color, grades,
+          marker_type:mt, marker_x, marker_y, marker_z,
+          marker_scale_x, marker_scale_y, marker_scale_z,
+          marker_r, marker_g, marker_b, marker_a
+        });
+      }
+    }
+  }
+};
+
+// === Dark mode toggle ===
+const root = document.documentElement;
+const darkModeBtn = document.getElementById("darkModeToggle");
+function setTheme(theme) {
+  document.documentElement.setAttribute("data-theme", theme);
+  localStorage.setItem("kbm_theme", theme);
+  darkModeBtn.textContent = theme === "dark" ? "☀️" : "🌙";
+}
+darkModeBtn.onclick = function() {
+  setTheme(document.documentElement.getAttribute("data-theme") === "dark" ? "light" : "dark");
+};
+// Autodetect saved or system preference
+(function(){
+  let t = localStorage.getItem("kbm_theme");
+  if(!t) t = window.matchMedia && window.matchMedia("(prefers-color-scheme: dark)").matches ? "dark" : "light";
+  setTheme(t);
+})();
+</script>
+</body>
+</html>
