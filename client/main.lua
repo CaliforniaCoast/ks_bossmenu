@@ -90,3 +90,14 @@ function TableContains(tbl, val)
     end
     return false
 end
+
+if Config.EnableCommand then
+    RegisterCommand(Config.CommandName, function()
+        local jobName = ESX.PlayerData.job.name
+        local jobConfig = Config.Jobs[jobName]
+
+        if jobConfig and TableContains(jobConfig.grades, ESX.PlayerData.job.grade) then
+            TriggerEvent('ks_bossmenu:openMenu')
+        end
+    end, false)
+end

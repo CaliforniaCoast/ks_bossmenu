@@ -16,9 +16,12 @@ Config.Timestamp = 'us'
 
 Config.UnemployedJobName = 'unemployed'
 
-Config.UseTarget = false -- Use ox_target for the boss menu (resource name: ox_target) | NEW
+Config.UseTarget = false -- Use ox_target for the boss menu (resource name: ox_target)
 
-Config.UseJobsCreator = false -- only for jaksam's jobcreator (resouerce name: jobs_creator) | NEW
+Config.UseJobsCreator = false -- only for jaksam's jobcreator (resouerce name: jobs_creator)
+
+Config.EnableCommand = false -- Enable the command to open the boss menu | NEW
+Config.CommandName = 'bossmenu' -- The name of the command | NEW
 
 Config.Jobs = {
     ['police'] = {
