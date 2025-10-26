@@ -23,6 +23,7 @@ function openNUI(data)
     SetNuiFocus(true, true)
     SendNUIMessage({
         action = 'openNUI',
+        menus = Config.Menus,
     })
 
     stats = data
@@ -104,12 +105,14 @@ RegisterNUICallback('fireEmployee', function (data, cb)
 end)
 
 RegisterNUICallback('changeSalary', function (data, cb)
-    ESX.TriggerServerCallback('ks_bossmenu:changeSalary', function(success)
-        if success then
+    ESX.TriggerServerCallback('ks_bossmenu:changeSalary', function(message)
+        if message == 'success' then
             getSalaries()
             getActions()
             getEmployees()
             cb('ok')
+        elseif message == 'exceeds_maximum' then
+            cb('exceeds_maximum')
         else
             cb('error')
         end

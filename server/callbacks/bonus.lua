@@ -15,6 +15,11 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToSelectedEmployees', function(
     local amount = data.amount
     local reason = data.reason
 
+    if amount > GetBonusMaximum(amount) then
+        cb(false, 'exceeds_maximum')
+        return
+    end
+
     if not employees or #employees == 0 or not amount or amount <= 0 then
         cb(false, 'invalid_data')
         return
@@ -74,6 +79,12 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToRanks', function(source, cb, 
     local ranks = data.ranks
     local amount = data.amount
     local reason = data.reason
+
+    if amount > GetBonusMaximum(amount) then
+        cb(false, 'exceeds_maximum')
+        return
+    end
+
 
     if not ranks or #ranks == 0 or not amount or amount <= 0 then
         cb(false, 'invalid_data')
@@ -157,6 +168,11 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllEmployees', function(sourc
     local amount = data.amount
     local reason = data.reason
 
+    if amount > GetBonusMaximum(amount) then
+        cb(false, 'exceeds_maximum')
+        return
+    end
+
     if not amount or amount <= 0 then
         cb(false, 'invalid_data')
         return
@@ -218,6 +234,11 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllRanks', function(source, c
     local job = xPlayer.getJob()
     local amount = data.amount
     local reason = data.reason
+
+    if amount > GetBonusMaximum(amount) then
+        cb(false, 'exceeds_maximum')
+        return
+    end
 
     if not amount or amount <= 0 then
         cb(false, 'invalid_data')
@@ -281,6 +302,11 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToOnlineEmployees', function(so
     local amount = data.amount
     local reason = data.reason
 
+    if amount > GetBonusMaximum(amount) then
+        cb(false, 'exceeds_maximum')
+        return
+    end
+
     if not amount or amount <= 0 then
         cb(false, 'invalid_data')
         return
@@ -333,3 +359,11 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToOnlineEmployees', function(so
         cb(false, 'not_allowed')
     end
 end)
+
+function GetBonusMaximum(amount)
+    local maxBonus = Config.Menus.bonus.maximum
+    if maxBonus and amount > maxBonus then
+        return maxBonus
+    end
+    return amount
+end

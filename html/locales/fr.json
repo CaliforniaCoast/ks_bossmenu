@@ -156,6 +156,7 @@
         "salaries": {
             "change": {
                 "success": "Salaire changé à {salary}{currency} !",
+                "exceeds_maximum": "Le salaire ne peut pas dépasser le maximum de {maximum}{currency} !",
                 "already_set": "Le salaire est déjà défini à cette valeur !",
                 "failed": "Échec du changement de salaire !",
                 "invalid_salary": "Veuillez entrer un salaire valide !",
@@ -169,9 +170,17 @@
             "invalid_amount": "Veuillez entrer un montant de prime valide !",
             "success": "Prime donnée à {count} employés avec succès !",
             "rank_success": "Prime de {amount} donnée à {count} grades avec succès !",
+            "ranks_success": "Prime de {amount} donnée à {count} grades avec succès !",
             "all_employees_success": "Prime de {amount} donnée à tous les {count} employés avec succès !",
             "all_ranks_success": "Prime de {amount} donnée à tous les employés de {count} grades avec succès !",
-            "online_employees_success": "Prime de {amount} donnée à {count} employés en ligne avec succès !"
+            "online_employees_success": "Prime de {amount} donnée à {count} employés en ligne avec succès !",
+            "given_to_employees": "Prime de {amount} donnée à {count} employés avec succès !",
+            "given_to_ranks": "Prime de {amount} donnée à {count} grades avec succès !",
+            "exceeds_maximum": "La prime ne peut pas dépasser le maximum de {maximum}{currency} !",
+            "failed": "Échec de l'attribution de la prime !",
+            "error": "Une erreur s'est produite lors de l'attribution de la prime : {error}",
+            "nui_error": "Une erreur s'est produite dans NUI lors de l'attribution de la prime : {error}",
+            "unknown_error": "Une erreur inconnue s'est produite lors de l'attribution de la prime : {error}"
         }
     }
 }

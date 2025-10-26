@@ -9,6 +9,10 @@ const props = defineProps({
         type: Object,
         default: null
     },
+    salaryMaximum: {
+        type: Number,
+        default: -1
+    },
     currency: {
         type: String,
         default: null
@@ -39,6 +43,8 @@ async function changeSalary() {
 
             if (text === '"ok"') {
                 props.notifiesRef?.triggerAlert('success', $t('notifies.salaries.change.success', { salary: newSalary, currency: props.currency }));
+            } else if (text === '"exceeds_maximum"') {
+                props.notifiesRef?.triggerAlert('danger', $t('notifies.salaries.change.exceeds_maximum', { maximum: props.salaryMaximum, currency: props.currency }));
             } else {
                 props.notifiesRef?.triggerAlert('danger', $t('notifies.salaries.change.failed'));
             }

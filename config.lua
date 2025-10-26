@@ -37,3 +37,23 @@ Config.Jobs = {
         },
     }
 }
+
+Config.Menus = { -- NEW (de-/activate menu features)
+    employees = {
+        enabled = true
+    },
+
+    salaries = {
+        enabled = true,
+        maximum = nil, -- NEW maximum salary change (nil = no limit; integer value)
+    },
+
+    account = {
+        enabled = true
+    },
+
+    bonus = {
+        enabled = true,
+        maximum = nil, -- NEW maximum bonus amount (nil = no limit; integer value)
+    }
+}

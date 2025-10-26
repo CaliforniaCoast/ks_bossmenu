@@ -21,13 +21,21 @@ const props = defineProps({
         type: Array,
         default: () => []
     },
-    saleries: {
+    salaries: {
         type: Array,
         default: () => []
     },
     onlineEmployees: {
         type: Array,
         default: () => []
+    },
+    salaryMaximum: {
+        type: Number,
+        default: -1
+    },
+    bonusMaximum: {
+        type: Number,
+        default: -1
     }
 })
 </script>
@@ -42,6 +50,7 @@ const props = defineProps({
     <SalaryModal 
         :notifiesRef="notifiesRef"
         :selectedSalary="selectedSalary"
+        :salaryMaximum="salaryMaximum"
         :currency="currency"
     />
 
@@ -49,30 +58,35 @@ const props = defineProps({
     <BonusEmployeesModal 
         :notifiesRef="notifiesRef"
         :currency="currency"
+        :bonusMaximum="bonusMaximum"
         :employees="employees"
     />
 
     <BonusRanksModal 
         :notifiesRef="notifiesRef"
         :currency="currency"
-        :saleries="saleries"
+        :bonusMaximum="bonusMaximum"
+        :salaries="salaries"
     />
 
     <BonusAllEmployeesModal 
         :notifiesRef="notifiesRef"
         :currency="currency"
+        :bonusMaximum="bonusMaximum"
         :employees="employees"
     />
 
     <BonusAllRanksModal 
         :notifiesRef="notifiesRef"
         :currency="currency"
-        :saleries="saleries"
+        :bonusMaximum="bonusMaximum"
+        :salaries="salaries"
     />
 
     <BonusOnlineEmployeesModal 
         :notifiesRef="notifiesRef"
         :currency="currency"
+        :bonusMaximum="bonusMaximum"
         :onlineEmployees="onlineEmployees"
     />
 </template>

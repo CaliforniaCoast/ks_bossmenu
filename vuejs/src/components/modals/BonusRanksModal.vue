@@ -10,7 +10,11 @@ const props = defineProps({
         type: String,
         default: null
     },
-    saleries: {
+    bonusMaximum: {
+        type: Number,
+        default: -1
+    },
+    salaries: {
         type: Array,
         default: () => []
     }
@@ -33,15 +37,15 @@ function isRankSelected(rank) {
 }
 
 function selectAllRanks() {
-    if (selectedRanks.value.length === props.saleries.length) {
+    if (selectedRanks.value.length === props.salaries.length) {
         selectedRanks.value = []
     } else {
-        selectedRanks.value = [...props.saleries]
+        selectedRanks.value = [...props.salaries]
     }
 }
 
 function areAllRanksSelected() {
-    return selectedRanks.value.length === props.saleries.length && props.saleries.length > 0
+    return selectedRanks.value.length === props.salaries.length && props.salaries.length > 0
 }
 
 async function giveBonusToSelectedRanks() {
@@ -71,6 +75,8 @@ async function giveBonusToSelectedRanks() {
         const text = await response.text()
         if (text === '"ok"') {
             props.notifiesRef?.triggerAlert('success', $t('notifies.bonus.ranks_success', { count: selectedRanks.value.length, amount: bonusAmount }))
+        } else if (text === '"exceeds_maximum"') {
+            props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.exceeds_maximum', { maximum: props.bonusMaximum, currency: props.currency }))
         } else {
             props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.failed'))
         }
@@ -96,7 +102,7 @@ async function giveBonusToSelectedRanks() {
                 <div class="modal-body">
                     <div class="employee-selection-header mb-3">
                         <div class="d-flex justify-content-between align-items-center">
-                            <span class="text-muted">{{ selectedRanks.length }} / {{ saleries.length }} {{ $t('salaries.ranks_selected') }}</span>
+                            <span class="text-muted">{{ selectedRanks.length }} / {{ salaries.length }} {{ $t('salaries.ranks_selected') }}</span>
                             <button type="button" class="btn btn-sm btn-outline-primary" @click="selectAllRanks()">
                                 <i class="bi" :class="areAllRanksSelected() ? 'bi-check-square' : 'bi-square'"></i>
                                 {{ areAllRanksSelected() ? $t('buttons.deselect_all') : $t('buttons.select_all') }}
@@ -109,13 +115,13 @@ async function giveBonusToSelectedRanks() {
                             <thead>
                                 <tr>
                                     <th style="font-weight: bold; width: 50px;">
-                                        <input type="checkbox" class="form-check-input" :checked="areAllRanksSelected()" @change="selectAllRanks()" :indeterminate="selectedRanks.length > 0 && selectedRanks.length < saleries.length">
+                                        <input type="checkbox" class="form-check-input" :checked="areAllRanksSelected()" @change="selectAllRanks()" :indeterminate="selectedRanks.length > 0 && selectedRanks.length < salaries.length">
                                     </th>
                                     <th style="font-weight: bold;">{{ $t('salaries.table_name') }}</th>
                                 </tr>
                             </thead>
                             <tbody class="table-group-divider">
-                                <tr v-for="(rank, i) in [...saleries].sort((a, b) => b.grade - a.grade)" :key="rank.grade || i" :class="{ 'table-active': isRankSelected(rank) }" @click="toggleRankSelection(rank)" style="cursor: pointer;">
+                                <tr v-for="(rank, i) in [...salaries].sort((a, b) => b.grade - a.grade)" :key="rank.grade || i" :class="{ 'table-active': isRankSelected(rank) }" @click="toggleRankSelection(rank)" style="cursor: pointer;">
                                     <td @click.stop>
                                         <input type="checkbox" class="form-check-input" :checked="isRankSelected(rank)" @change="toggleRankSelection(rank)">
                                     </td>

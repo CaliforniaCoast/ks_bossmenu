@@ -135,6 +135,36 @@
       <input type="text" class="form-control" name="CommandName" value="bossmenu">
     </div>
     <hr>
+    <h4>Menu Features</h4>
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="MenuEmployees" id="MenuEmployees" checked>
+        <label class="form-check-label" for="MenuEmployees">Enable Employees Menu</label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="MenuSalaries" id="MenuSalaries" checked>
+        <label class="form-check-label" for="MenuSalaries">Enable Salaries Menu</label>
+      </div>
+      <label class="form-label mt-2">Maximum Salary Change (leave empty for no limit)</label>
+      <input type="number" class="form-control" name="SalaryMaximum" placeholder="e.g. 10000">
+    </div>
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="MenuAccount" id="MenuAccount" checked>
+        <label class="form-check-label" for="MenuAccount">Enable Account Menu</label>
+      </div>
+    </div>
+    <div class="mb-3">
+      <div class="form-check form-switch">
+        <input class="form-check-input" type="checkbox" name="MenuBonus" id="MenuBonus" checked>
+        <label class="form-check-label" for="MenuBonus">Enable Bonus Menu</label>
+      </div>
+      <label class="form-label mt-2">Maximum Bonus Amount (leave empty for no limit)</label>
+      <input type="number" class="form-control" name="BonusMaximum" placeholder="e.g. 5000">
+    </div>
+    <hr>
     <h4>Jobs</h4>
     <div id="jobsContainer"></div>
     <button type="button" class="btn btn-outline-primary" id="addJobBtn">Add new job</button>
@@ -213,6 +243,14 @@ document.getElementById("configForm").onsubmit = function(e) {
   const enableCommand = form.EnableCommand.checked;
   const commandName = form.CommandName.value;
 
+  // Menu features
+  const menuEmployees = form.MenuEmployees.checked;
+  const menuSalaries = form.MenuSalaries.checked;
+  const salaryMaximum = form.SalaryMaximum.value.trim();
+  const menuAccount = form.MenuAccount.checked;
+  const menuBonus = form.MenuBonus.checked;
+  const bonusMaximum = form.BonusMaximum.value.trim();
+
   let jobsString = "";
   document.querySelectorAll("#jobsContainer .job-box").forEach(box => {
     const jn = box.querySelector("input[name='jobName']").value.trim();
@@ -270,7 +308,26 @@ Config.EnableCommand = ${enableCommand ? "true" : "false"} -- Enable the command
 Config.CommandName = '${commandName}' -- The name of the command | NEW
 
 Config.Jobs = {
-${jobsString}
+${jobsString}}
+
+Config.Menus = { -- (de-/activate menu features)
+    employees = {
+        enabled = ${menuEmployees ? "true" : "false"}
+    },
+
+    salaries = {
+        enabled = ${menuSalaries ? "true" : "false"},
+        maximum = ${salaryMaximum ? salaryMaximum : "nil"}, -- maximum salary change (nil = no limit; integer value)
+    },
+
+    account = {
+        enabled = ${menuAccount ? "true" : "false"}
+    },
+
+    bonus = {
+        enabled = ${menuBonus ? "true" : "false"},
+        maximum = ${bonusMaximum ? bonusMaximum : "nil"}, -- maximum bonus amount (nil = no limit; integer value)
+    }
 }
 `;
 
@@ -298,11 +355,30 @@ document.getElementById("importFile").onchange = async function(e) {
   document.querySelector("input[name='UseJobsCreator']").checked = !!extract("UseJobsCreator",false);
   document.querySelector("input[name='EnableCommand']").checked = !!extract("EnableCommand",false);
   document.querySelector("input[name='CommandName']").value = extract("CommandName") || "bossmenu";
+  
+  // Menus
+  const menusBlock = text.match(/Config\.Menus\s*=\s*\{([\s\S]*?)\n\}/m);
+  if(menusBlock) {
+    const employeesEnabled = menusBlock[1].match(/employees\s*=\s*\{[^}]*enabled\s*=\s*(true|false)/);
+    const salariesEnabled = menusBlock[1].match(/salaries\s*=\s*\{[^}]*enabled\s*=\s*(true|false)/);
+    const salariesMax = menusBlock[1].match(/salaries\s*=\s*\{[^}]*maximum\s*=\s*(\d+)/);
+    const accountEnabled = menusBlock[1].match(/account\s*=\s*\{[^}]*enabled\s*=\s*(true|false)/);
+    const bonusEnabled = menusBlock[1].match(/bonus\s*=\s*\{[^}]*enabled\s*=\s*(true|false)/);
+    const bonusMax = menusBlock[1].match(/bonus\s*=\s*\{[^}]*maximum\s*=\s*(\d+)/);
+    
+    document.querySelector("input[name='MenuEmployees']").checked = employeesEnabled ? employeesEnabled[1] === 'true' : true;
+    document.querySelector("input[name='MenuSalaries']").checked = salariesEnabled ? salariesEnabled[1] === 'true' : true;
+    document.querySelector("input[name='SalaryMaximum']").value = salariesMax ? salariesMax[1] : "";
+    document.querySelector("input[name='MenuAccount']").checked = accountEnabled ? accountEnabled[1] === 'true' : true;
+    document.querySelector("input[name='MenuBonus']").checked = bonusEnabled ? bonusEnabled[1] === 'true' : true;
+    document.querySelector("input[name='BonusMaximum']").value = bonusMax ? bonusMax[1] : "";
+  }
+  
   // Jobs
-  const jobsBlock = text.match(/Config\.Jobs\s*=\s*\{([\s\S]*?)\n\}/m);
+  const jobsBlock = text.match(/Config\.Jobs\s*=\s*\{([\s\S]*?)\n\}\s*(?:\n|$)/m);
   if(jobsBlock) {
     document.getElementById("jobsContainer").innerHTML = "";
-    const jobs = jobsBlock[1].match(/(\[\s*'([^']+)'\s*\]\s*=\s*\{[\s\S]*?},\n)/g);
+    const jobs = jobsBlock[1].match(/(\[\s*'([^']+)'\s*\]\s*=\s*\{[\s\S]*?}\s*,?\s*\n)/g);
     if(jobs) {
       for(let job of jobs){
         const jobName = job.match(/\[\s*'([^']+)'\s*\]/)[1];

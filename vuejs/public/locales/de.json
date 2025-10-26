@@ -95,71 +95,72 @@
     "notifies": {
         "account": {
             "deposit": {
-                "success": "Deposit of {amount}$ successful!",
-                "not_enough_money": "Not enough money to deposit!",
-                "error": "An error occurred while processing the deposit!",
-                "unknown_error": "An unknown error occurred while processing the deposit!",
-                "unknown": "An unexpected respone was received while deposit money!",
-                "nui_error": "An error occurred in NUI while deposit money: {error}",
-                "invalid_amount": "Please enter a valid amount!"
+                "success": "Einzahlung von {amount}$ erfolgreich!",
+                "not_enough_money": "Nicht genug Geld zum Einzahlen!",
+                "error": "Ein Fehler ist beim Verarbeiten der Einzahlung aufgetreten!",
+                "unknown_error": "Ein unbekannter Fehler ist beim Verarbeiten der Einzahlung aufgetreten!",
+                "unknown": "Eine unerwartete Antwort wurde beim Einzahlen erhalten!",
+                "nui_error": "Ein NUI-Fehler ist beim Einzahlen aufgetreten: {error}",
+                "invalid_amount": "Bitte geben Sie einen gültigen Betrag ein!"
             },
 
             "withdraw": {
-                "success": "Withdrawal of {amount}$ successful!",
-                "not_enough_money": "Not enough money to withdraw!",
-                "error": "An error occurred while processing the withdrawal!",
-                "unknown_error": "An unknown error occurred while processing the withdrawal!",
-                "unknown": "An unexpected respone was received while withdraw money!",
-                "nui_error": "An error occurred in NUI while withdraw money: {error}",
-                "invalid_amount": "Please enter a valid amount!"
+                "success": "Abhebung von {amount}$ erfolgreich!",
+                "not_enough_money": "Nicht genug Geld zum Abheben!",
+                "error": "Ein Fehler ist beim Verarbeiten der Abhebung aufgetreten!",
+                "unknown_error": "Ein unbekannter Fehler ist beim Verarbeiten der Abhebung aufgetreten!",
+                "unknown": "Eine unerwartete Antwort wurde beim Abheben erhalten!",
+                "nui_error": "Ein NUI-Fehler ist beim Abheben aufgetreten: {error}",
+                "invalid_amount": "Bitte geben Sie einen gültigen Betrag ein!"
             }
         },
 
         "employees": {
             "promote": {
-                "success": "Employee {name} promoted successfully!",
-                "self_promote": "You cannot promote yourself.",
-                "highest_grade": "Employee {name} is already at the highest grade.",
-                "not_same_job": "Employee {name} is not in the same job.",
-                "error": "An error occurred while promoting the employee.",
-                "unknown_error": "An unknown error occurred while promoting the employee.",
-                "unknown": "An unexpected response was received while promoting the employee.",
-                "nui_error": "An error occurred in NUI while promoting the employee: {error}"
+                "success": "Mitarbeiter {name} erfolgreich befördert!",
+                "self_promote": "Sie können sich nicht selbst befördern.",
+                "highest_grade": "Mitarbeiter {name} ist bereits im höchsten Rang.",
+                "not_same_job": "Mitarbeiter {name} ist nicht im selben Job.",
+                "error": "Ein Fehler ist beim Befördern des Mitarbeiters aufgetreten.",
+                "unknown_error": "Ein unbekannter Fehler ist beim Befördern des Mitarbeiters aufgetreten.",
+                "unknown": "Eine unerwartete Antwort wurde beim Befördern des Mitarbeiters erhalten.",
+                "nui_error": "Ein NUI-Fehler ist beim Befördern des Mitarbeiters aufgetreten: {error}"
             },
             "demote": {
-                "success": "Employee {name} demoted successfully!",
-                "self_demote": "You cannot demote yourself.",
-                "lowest_grade": "Employee {name} is already at the lowest grade.",
-                "not_same_job": "Employee {name} is not in the same job.",
-                "error": "An error occurred while demoting the employee.",
-                "unknown_error": "An unknown error occurred while demoting the employee.",
-                "unknown": "An unexpected response was received while demoting the employee.",
-                "nui_error": "An error occurred in NUI while demoting the employee: {error}"
+                "success": "Mitarbeiter {name} erfolgreich degradiert!",
+                "self_demote": "Sie können sich nicht selbst degradieren.",
+                "lowest_grade": "Mitarbeiter {name} ist bereits im niedrigsten Rang.",
+                "not_same_job": "Mitarbeiter {name} ist nicht im selben Job.",
+                "error": "Ein Fehler ist beim Degradieren des Mitarbeiters aufgetreten.",
+                "unknown_error": "Ein unbekannter Fehler ist beim Degradieren des Mitarbeiters aufgetreten.",
+                "unknown": "Eine unerwartete Antwort wurde beim Degradieren des Mitarbeiters erhalten.",
+                "nui_error": "Ein NUI-Fehler ist beim Degradieren des Mitarbeiters aufgetreten: {error}"
             },
             "fire": {
-                "success": "Employee {name} fired successfully!",
-                "self_fire": "You cannot fire yourself.",
-                "not_same_job": "Employee {name} is not in the same job.",
-                "error": "An error occurred while firing the employee.",
-                "unknown_error": "An unknown error occurred while firing the employee.",
-                "unknown": "An unexpected response was received while firing the employee.",
-                "nui_error": "An error occurred in NUI while firing the employee: {error}"
+                "success": "Mitarbeiter {name} erfolgreich entlassen!",
+                "self_fire": "Sie können sich nicht selbst entlassen.",
+                "not_same_job": "Mitarbeiter {name} ist nicht im selben Job.",
+                "error": "Ein Fehler ist beim Entlassen des Mitarbeiters aufgetreten.",
+                "unknown_error": "Ein unbekannter Fehler ist beim Entlassen des Mitarbeiters aufgetreten.",
+                "unknown": "Eine unerwartete Antwort wurde beim Entlassen des Mitarbeiters erhalten.",
+                "nui_error": "Ein NUI-Fehler ist beim Entlassen des Mitarbeiters aufgetreten: {error}"
             },
             "add": {
-                "success": "Employee with ID {id} added successfully!",
-                "failed": "Player is not online or already in this job!",
-                "invalid_id": "Please enter an ID over 0!",
-                "nui_error": "An error occurred in NUI while adding the employee: {error}"
+                "success": "Mitarbeiter mit ID {id} erfolgreich hinzugefügt!",
+                "failed": "Spieler ist nicht online oder bereits in diesem Job!",
+                "invalid_id": "Bitte geben Sie eine ID über 0 ein!",
+                "nui_error": "Ein NUI-Fehler ist beim Hinzufügen des Mitarbeiters aufgetreten: {error}"
             }
         },
 
         "salaries": {
             "change": {
-                "success": "Salary changed to {salary}{currency}!",
-                "already_set": "Salary is already set to this value!",
-                "failed": "Failed to change salary!",
-                "invalid_salary": "Please enter a valid salary!",
-                "nui_error": "An error occurred in NUI while changing the salary: {error}"
+                "success": "Gehalt zu {salary}{currency} geändert!",
+                "exceeds_maximum": "Gehalt kann das Maximum von {maximum}{currency} nicht überschreiten!",
+                "already_set": "Gehalt ist bereits auf diesen Wert eingestellt!",
+                "failed": "Fehler beim Ändern des Gehalts!",
+                "invalid_salary": "Bitte geben Sie ein gültiges Gehalt ein!",
+                "nui_error": "Ein NUI-Fehler ist beim Ändern des Gehalts aufgetreten: {error}"
             }
         },
 
@@ -167,12 +168,15 @@
             "no_employees_selected": "Keine Mitarbeiter ausgewählt!",
             "no_ranks_selected": "Keine Ränge ausgewählt!",
             "invalid_amount": "Bitte geben Sie einen gültigen Bonus-Betrag ein!",
-            "success": "Bonus wurde erfolgreich an {count} Mitarbeiter vergeben!",
-            "rank_success": "Bonus von {amount} wurde erfolgreich an {count} Ränge vergeben!",
-            "ranks_success": "Bonus von {amount} wurde erfolgreich an {count} Ränge vergeben!",
-            "all_employees_success": "Bonus von {amount} wurde erfolgreich an alle {count} Mitarbeiter vergeben!",
-            "all_ranks_success": "Bonus von {amount} wurde erfolgreich an alle Mitarbeiter in {count} Rängen vergeben!",
-            "online_employees_success": "Bonus von {amount} wurde erfolgreich an {count} online Mitarbeiter vergeben!",
+            "success": "Bonus an {count} Mitarbeiter erfolgreich vergeben!",
+            "rank_success": "Bonus von {amount} an {count} Ränge erfolgreich vergeben!",
+            "ranks_success": "Bonus von {amount} an {count} Ränge erfolgreich vergeben!",
+            "all_employees_success": "Bonus von {amount} an alle {count} Mitarbeiter erfolgreich vergeben!",
+            "all_ranks_success": "Bonus von {amount} an alle Mitarbeiter in {count} Rängen erfolgreich vergeben!",
+            "online_employees_success": "Bonus von {amount} an {count} online Mitarbeiter erfolgreich vergeben!",
+            "given_to_employees": "Bonus von {amount} an {count} Mitarbeiter erfolgreich vergeben!",
+            "given_to_ranks": "Bonus von {amount} an {count} Ränge erfolgreich vergeben!",
+            "exceeds_maximum": "Bonus kann das Maximum von {maximum}{currency} nicht überschreiten!",
             "failed": "Fehler beim Vergeben des Bonus!",
             "error": "Ein Fehler ist beim Vergeben des Bonus aufgetreten: {error}",
             "nui_error": "Ein NUI-Fehler ist beim Vergeben des Bonus aufgetreten: {error}",

@@ -405,6 +405,11 @@ ESX.RegisterServerCallback('ks_bossmenu:changeSalary', function(source, cb, data
         local grade = tonumber(data.grade)
         local salary = tonumber(data.salary)
 
+        if Config.Menus.salaries.maximum and salary > Config.Menus.salaries.maximum then
+            cb('exceeds_maximum')
+            return
+        end
+
         if grade and salary then
             local oldSalary = getSalary(grade, xPlayer.getJob().name)
             
@@ -429,7 +434,7 @@ ESX.RegisterServerCallback('ks_bossmenu:changeSalary', function(source, cb, data
                     LogSalaryChange(source, targetData, xPlayer.getJob().name, 
                                   getGradeLabel(grade, xPlayer.getJob().name), oldSalary, salary)
                     
-                    cb(true)
+                    cb('success')
                 else
                     cb(false)
                 end

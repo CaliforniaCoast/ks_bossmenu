@@ -15,16 +15,18 @@
             default: '0'
         },
 
-        actions: {
-            type: Array,
-            default: () => []
-        },
-
         currency: {
             type: String,
             default: null
+        },
+
+        actions: {
+            type: Array,
+            default: () => []
         }
     });
+
+    defineEmits(['seeAllActions']);
 </script>
 
 <template>

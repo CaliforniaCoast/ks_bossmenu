@@ -16,13 +16,22 @@
   // Initialize translations globally
   const { initializeTranslations } = useTranslations()
 
+  const menus = ref({
+    employees: { enabled: true },
+    salaries: { enabled: true },
+    account: { enabled: true },
+    bonus: { enabled: true }
+  })
+
   const employeesAmount = ref(0)
   const onDuty = ref(0)
   const account = ref('0$')
   const currency = ref(null)
   const employeesList = ref([])
   const onlineEmployeesList = ref([])
-  const saleriesList = ref([])
+  const salariesList = ref([])
+  const salaryMaximum = ref(-1)
+  const bonusMaximum = ref(-1)
   const actionsList = ref([])
   const transactionsList = ref([])
   const selectedSalary = ref(null)
@@ -131,6 +140,9 @@
     
     window.addEventListener('message', (event) => {
       if (event.data.action === 'openNUI') {
+        menus.value = event.data.menus || {}
+        salaryMaximum.value = (event.data.menus && event.data.menus.salaries && event.data.menus.salaries.maximum) || -1
+        bonusMaximum.value = (event.data.menus && event.data.menus.bonus && event.data.menus.bonus.maximum) || -1
         openNUI()
       } else if (event.data.action === 'getStats') {
         employeesAmount.value = event.data.employeesamount
@@ -152,7 +164,7 @@
         onlineEmployeesList.value = event.data.onlineEmployees
       
       } else if (event.data.action === 'getSalaries') {
-        saleriesList.value = event.data.salaries
+        salariesList.value = event.data.salaries
 
       } else if (event.data.action === 'getActions') {
         actionsList.value = event.data.actions
@@ -199,8 +211,10 @@
     :notifiesRef="notifiesRef"
     :selectedSalary="selectedSalary"
     :employees="employeesList"
-    :saleries="saleriesList"
+    :salaries="salariesList"
     :onlineEmployees="onlineEmployeesList"
+    :salaryMaximum="salaryMaximum"
+    :bonusMaximum="bonusMaximum"
   />
 
   <NotifiesComponent :currency="currency" ref="notifiesRef"/>
@@ -237,22 +251,22 @@
           data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
           <i class="bi bi-house-door me-2"></i> {{ $t('pages.home') }}
         </button>
-        <button class="nav-link text-start" id="v-pills-employees-tab" data-bs-toggle="pill"
+        <button v-if="menus.employees.enabled" class="nav-link text-start" id="v-pills-employees-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-employees" type="button" role="tab" aria-controls="v-pills-employees"
           aria-selected="false">
           <i class="bi bi-people me-2"></i> {{ $t('pages.employees') }}
         </button>
-        <button class="nav-link text-start" id="v-pills-salaries-tab" data-bs-toggle="pill"
+        <button v-if="menus.salaries.enabled" class="nav-link text-start" id="v-pills-salaries-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-salaries" type="button" role="tab" aria-controls="v-pills-salaries"
           aria-selected="false">
           <i class="bi bi-cash me-2"></i> {{ $t('pages.salaries') }}
         </button>
-        <button class="nav-link text-start" id="v-pills-account-tab" data-bs-toggle="pill"
+        <button v-if="menus.account.enabled" class="nav-link text-start" id="v-pills-account-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-account" type="button" role="tab" aria-controls="v-pills-account"
           aria-selected="false">
           <i class="bi bi-bank me-2"></i> {{ $t('pages.account') }}
         </button>
-        <button class="nav-link text-start" id="v-pills-bonus-tab" data-bs-toggle="pill"
+        <button v-if="menus.bonus.enabled" class="nav-link text-start" id="v-pills-bonus-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-bonus" type="button" role="tab" aria-controls="v-pills-bonus"
           aria-selected="false">
           <i class="bi bi-gift me-2"></i> {{ $t('pages.bonus') }} <span class="badge">New</span>
@@ -279,7 +293,7 @@
         <div class="tab-pane fade" id="v-pills-salaries" role="tabpanel" aria-labelledby="v-pills-salaries-tab"
           tabindex="0">
 
-          <SalariesComponent :saleries="saleriesList" @open-salary-modal="handleOpenSalaryModal"/>
+          <SalariesComponent :salaries="salariesList" @open-salary-modal="handleOpenSalaryModal"/>
 
         </div>
         <div class="tab-pane fade" id="v-pills-account" role="tabpanel" aria-labelledby="v-pills-account-tab"

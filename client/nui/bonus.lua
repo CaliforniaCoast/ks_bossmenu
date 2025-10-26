@@ -12,6 +12,8 @@ RegisterNUICallback('giveBonusToSelectedEmployees', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:giveBonusToSelectedEmployees', function(success, message)
         if success then
             cb('ok')
+        elseif not success and message == 'exceeds_maximum' then
+            cb('exceeds_maximum')
         else
             cb(message or 'error')
         end
@@ -22,6 +24,8 @@ RegisterNUICallback('giveBonusToRanks', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:giveBonusToRanks', function(success, message)
         if success then
             cb('ok')
+        elseif not success and message == 'exceeds_maximum' then
+            cb('exceeds_maximum')
         else
             cb(message or 'error')
         end
@@ -32,6 +36,8 @@ RegisterNUICallback('giveBonusToAllEmployees', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:giveBonusToAllEmployees', function(success, message)
         if success then
             cb('ok')
+        elseif not success and message == 'exceeds_maximum' then
+            cb('exceeds_maximum')
         else
             cb(message or 'error')
         end
@@ -42,6 +48,8 @@ RegisterNUICallback('giveBonusToAllRanks', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:giveBonusToAllRanks', function(success, message)
         if success then
             cb('ok')
+        elseif not success and message == 'exceeds_maximum' then
+            cb('exceeds_maximum')
         else
             cb(message or 'error')
         end
@@ -52,6 +60,8 @@ RegisterNUICallback('giveBonusToOnlineEmployees', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:giveBonusToOnlineEmployees', function(success, message)
         if success then
             cb('ok')
+        elseif not success and message == 'exceeds_maximum' then
+            cb('exceeds_maximum')
         else
             cb(message or 'error')
         end

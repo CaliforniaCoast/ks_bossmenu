@@ -9,7 +9,11 @@ const props = defineProps({
         type: String,
         default: null
     },
-    saleries: {
+    bonusMaximum: {
+        type: Number,
+        default: -1
+    },
+    salaries: {
         type: Array,
         default: () => []
     }
@@ -35,7 +39,9 @@ async function giveBonusToAllRanks() {
         const text = await response.text();
 
         if (text === '"ok"') {
-            props.notifiesRef?.triggerAlert('success', $t('notifies.bonus.all_ranks_success', { count: props.saleries.length, amount: bonusAmount }))
+            props.notifiesRef?.triggerAlert('success', $t('notifies.bonus.all_ranks_success', { count: props.salaries.length, amount: bonusAmount }))
+        } else if (text === '"exceeds_maximum"') {
+            props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.exceeds_maximum', { maximum: props.bonusMaximum, currency: props.currency }))
         } else {
             props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.failed'))
         }
@@ -60,16 +66,16 @@ async function giveBonusToAllRanks() {
                 <div class="modal-body">
                     <div class="alert alert-warning mb-3">
                         <i class="bi bi-exclamation-triangle"></i>
-                        {{ $t('bonus.all_ranks_info', { count: saleries.length }) }}
+                        {{ $t('bonus.all_ranks_info', { count: salaries.length }) }}
                     </div>
 
                     <div class="ranks-preview mb-3">
                         <h6>{{ $t('bonus.affected_ranks') }}:</h6>
                         <div class="ranks-list">
-                            <span v-for="rank in saleries.slice(0, 5)" :key="rank.grade" class="badge bg-secondary me-1 mb-1">
+                            <span v-for="rank in salaries.slice(0, 5)" :key="rank.grade" class="badge bg-secondary me-1 mb-1">
                                 {{ rank.grade_label || `Grade ${rank.grade}` }}
                             </span>
-                            <span v-if="saleries.length > 5" class="text-muted">... +{{ saleries.length - 5 }} mehr</span>
+                            <span v-if="salaries.length > 5" class="text-muted">... +{{ salaries.length - 5 }} mehr</span>
                         </div>
                     </div>
 

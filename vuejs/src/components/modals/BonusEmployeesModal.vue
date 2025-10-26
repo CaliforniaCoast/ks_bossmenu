@@ -10,6 +10,10 @@
             type: String,
             default: null
         },
+        bonusMaximum: {
+            type: Number,
+            default: -1
+        },
         employees: {
             type: Array,
             default: () => []
@@ -73,6 +77,8 @@
 
             if (text === '"ok"') {
                 props.notifiesRef?.triggerAlert('success', $t('notifies.bonus.success', { count: selectedEmployees.value.length }))
+            } else if (text === '"exceeds_maximum"') {
+                props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.exceeds_maximum', { maximum: props.bonusMaximum, currency: props.currency }))
             } else {
                 props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.error', { error: text }))
             }

@@ -156,6 +156,7 @@
         "salaries": {
             "change": {
                 "success": "Salary changed to {salary}{currency}!",
+                "exceeds_maximum": "Salary cannot exceed the maximum of {maximum}{currency}!",
                 "already_set": "Salary is already set to this value!",
                 "failed": "Failed to change salary!",
                 "invalid_salary": "Please enter a valid salary!",
@@ -174,6 +175,8 @@
             "all_ranks_success": "Bonus of {amount} given to all employees in {count} ranks successfully!",
             "online_employees_success": "Bonus of {amount} given to {count} online employees successfully!",
             "given_to_employees": "Bonus of {amount} given to {count} employees successfully!",
+            "given_to_ranks": "Bonus of {amount} given to {count} ranks successfully!",
+            "exceeds_maximum": "Bonus cannot exceed the maximum of {maximum}{currency}!",
             "failed": "Failed to give bonus!",
             "error": "An error occurred while giving the bonus: {error}",
             "nui_error": "An NUI error occurred while giving the bonus: {error}",

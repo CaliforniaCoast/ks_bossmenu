@@ -2,7 +2,11 @@
     const emit = defineEmits(['open-salary-modal'])
 
     defineProps({
-        saleries: {
+        salaries: {
+            type: Array,
+            default: () => []
+        },
+        salaries: {
             type: Array,
             default: () => []
         }
@@ -29,7 +33,7 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                <tr v-for="(salary, i) in [...saleries].sort((a, b) => b.grade - a.grade)" :key="i">
+                <tr v-for="(salary, i) in [...salaries].sort((a, b) => b.grade - a.grade)" :key="i">
                     <td>{{ salary.grade }}</td>
                     <td>{{ salary.grade_label }}</td>
                     <td>{{ salary.salary }}</td>

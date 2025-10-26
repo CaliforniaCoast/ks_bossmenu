@@ -9,6 +9,10 @@ const props = defineProps({
         type: String,
         default: null
     },
+    bonusMaximum: {
+        type: Number,
+        default: -1
+    },
     onlineEmployees: {
         type: Array,
         default: () => []
@@ -36,6 +40,8 @@ async function giveBonusToOnlineEmployees() {
 
         if (text === '"ok"') {
             props.notifiesRef?.triggerAlert('success', $t('notifies.bonus.online_employees_success', { count: props.onlineEmployees.length, amount: bonusAmount }))
+        } else if (text === '"exceeds_maximum"') {
+            props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.exceeds_maximum', { maximum: props.bonusMaximum, currency: props.currency }))
         } else {
             props.notifiesRef?.triggerAlert('danger', $t('notifies.bonus.failed'))
         }
