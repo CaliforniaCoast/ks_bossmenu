@@ -171,30 +171,41 @@ ESX.RegisterServerCallback('ks_bossmenu:addEmployee', function(source, cb, data)
     local xTarget = ESX.GetPlayerFromId(data.message)
 
     if IsPlayerAllowed(source) then
-        if xTarget and xTarget.getJob().name ~= xPlayer.getJob().name then
-            xTarget.setJob(xPlayer.getJob().name, 0)
-            
-            AddAction(source, {
-                action = 'add_employee',
-                data = {
-                    target = xTarget.getName(),
-                }
-            })
-
-            -- Discord Logging
-            local targetData = {
-                name = xTarget.getName(),
-                identifier = xTarget.getIdentifier()
-            }
-            local gradeName = getGradeLabel(0, xPlayer.getJob().name)
-            local salary = getSalary(0, xPlayer.getJob().name)
-            
-            LogHire(source, targetData, xPlayer.getJob().name, 0, gradeName, salary)
-
-            cb(true)
-        else
+        if xPlayer.getIdentifier() == xTarget.getIdentifier() then
             cb(false)
+            return
         end
+
+        if xTarget then
+            xTarget.setJob(xPlayer.getJob().name, 0)
+        end
+
+        MySQL.update('UPDATE users SET job = ?, job_grade = ? WHERE identifier = ?', {
+            xPlayer.getJob().name, 0, xTarget.getIdentifier()
+        }, function(affectedRows)
+            if affectedRows > 0 then
+                AddAction(source, {
+                    action = 'add_employee',
+                    data = {
+                        target = xTarget.getName(),
+                    }
+                })
+
+                -- Discord Logging
+                local targetData = {
+                    name = xTarget.getName(),
+                    identifier = xTarget.getIdentifier()
+                }
+                local gradeName = getGradeLabel(0, xPlayer.getJob().name)
+                local salary = getSalary(0, xPlayer.getJob().name)
+                
+                LogHire(source, targetData, xPlayer.getJob().name, 0, gradeName, salary)
+
+                cb(true)
+            else
+                cb(false)
+            end
+        end)
     end
 end)
 

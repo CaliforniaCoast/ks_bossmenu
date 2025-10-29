@@ -11,7 +11,7 @@ ESX = exports['es_extended']:getSharedObject()
 local targetZones = {}
 
 Citizen.CreateThread(function()
-    while not ESX.IsPlayerLoaded() do
+    while not ESX.PlayerLoaded do
         Citizen.Wait(100)
     end
 

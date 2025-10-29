@@ -108,7 +108,7 @@
                     </tr>
                 </thead>
                 <tbody class="table-group-divider">
-                    <tr v-for="(action, i) in actions.slice().sort((a, b) => b.id - a.id).slice(0, 4)" :key="i">
+                    <tr v-for="action in actions.slice().sort((a, b) => b.id - a.id).slice(0, 4)" :key="action.id">
                         <td>{{ action.id }}</td>
                         <td>
                             <span class="icon-bg" v-if="action.action === 'change_salary'">

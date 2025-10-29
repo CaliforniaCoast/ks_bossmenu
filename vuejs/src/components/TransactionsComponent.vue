@@ -27,7 +27,7 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                <tr v-for="(transaction, i) in [...transactions].sort((a, b) => b.id - a.id)" :key="i">
+                <tr v-for="transaction in [...transactions].sort((a, b) => b.id - a.id)" :key="transaction.id">
                     <td>{{ transaction.id }}</td>
                     <td>
                         <span class="icon-bg" v-if="transaction.action === 'withdraw'">

@@ -31,7 +31,7 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                <tr v-for="(action, i) in [...actions].sort((a, b) => b.id - a.id)" :key="i">
+                <tr v-for="action in [...actions].sort((a, b) => b.id - a.id)" :key="action.id">
                     <td>{{ action.id }}</td>
                     <td>
                         <span class="icon-bg" v-if="action.action === 'change_salary'">

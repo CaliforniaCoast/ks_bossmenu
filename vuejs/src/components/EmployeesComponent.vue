@@ -127,7 +127,7 @@
                 </tr>
             </thead>
             <tbody class="table-group-divider">
-                <tr v-for="(employee, i) in [...employees].sort((a, b) => b.jobgradenr - a.jobgradenr)" :key="i">
+                <tr v-for="employee in [...employees].sort((a, b) => b.jobgradenr - a.jobgradenr)" :key="employee.identifier">
                     <td>{{ employee.firstname }} {{ employee.lastname }}</td>
                     <td>{{ employee.jobgrade }}</td>
                     <td>{{ employee.salary }}</td>

@@ -251,22 +251,22 @@
           data-bs-target="#v-pills-home" type="button" role="tab" aria-controls="v-pills-home" aria-selected="true">
           <i class="bi bi-house-door me-2"></i> {{ $t('pages.home') }}
         </button>
-        <button v-if="menus.employees.enabled" class="nav-link text-start" id="v-pills-employees-tab" data-bs-toggle="pill"
+        <button v-if="menus.employees?.enabled !== false" class="nav-link text-start" id="v-pills-employees-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-employees" type="button" role="tab" aria-controls="v-pills-employees"
           aria-selected="false">
           <i class="bi bi-people me-2"></i> {{ $t('pages.employees') }}
         </button>
-        <button v-if="menus.salaries.enabled" class="nav-link text-start" id="v-pills-salaries-tab" data-bs-toggle="pill"
+        <button v-if="menus.salaries?.enabled !== false" class="nav-link text-start" id="v-pills-salaries-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-salaries" type="button" role="tab" aria-controls="v-pills-salaries"
           aria-selected="false">
           <i class="bi bi-cash me-2"></i> {{ $t('pages.salaries') }}
         </button>
-        <button v-if="menus.account.enabled" class="nav-link text-start" id="v-pills-account-tab" data-bs-toggle="pill"
+        <button v-if="menus.account?.enabled !== false" class="nav-link text-start" id="v-pills-account-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-account" type="button" role="tab" aria-controls="v-pills-account"
           aria-selected="false">
           <i class="bi bi-bank me-2"></i> {{ $t('pages.account') }}
         </button>
-        <button v-if="menus.bonus.enabled" class="nav-link text-start" id="v-pills-bonus-tab" data-bs-toggle="pill"
+        <button v-if="menus.bonus?.enabled !== false" class="nav-link text-start" id="v-pills-bonus-tab" data-bs-toggle="pill"
           data-bs-target="#v-pills-bonus" type="button" role="tab" aria-controls="v-pills-bonus"
           aria-selected="false">
           <i class="bi bi-gift me-2"></i> {{ $t('pages.bonus') }} <span class="badge">New</span>

@@ -38,6 +38,7 @@ RegisterNUICallback('addEmployee', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:addEmployee', function(success)
         if success then
             getEmployees()
+            getOnlineEmployeesList()
             getActions()
             cb('ok')
         else
@@ -50,6 +51,7 @@ RegisterNUICallback('promoteEmployee', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:promoteEmployee', function(message)       
         if message == 'success' then
             getEmployees()
+            getOnlineEmployeesList()
             getActions()
             cb('ok')
         elseif message == 'self_promote' then
@@ -70,6 +72,7 @@ RegisterNUICallback('demoteEmployee', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:demoteEmployee', function(message)
         if message == 'success' then
             getEmployees()
+            getOnlineEmployeesList()
             getActions()
             cb('ok')
         elseif message == 'self_demote' then
@@ -90,6 +93,7 @@ RegisterNUICallback('fireEmployee', function (data, cb)
     ESX.TriggerServerCallback('ks_bossmenu:fireEmployee', function(message)
         if message == 'success' then
             getEmployees()
+            getOnlineEmployeesList()
             getActions()
             cb('ok')
         elseif message == 'self_fire' then
