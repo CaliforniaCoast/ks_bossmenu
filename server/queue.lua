@@ -23,7 +23,7 @@ AddEventHandler('esx:playerLoaded', function (source, xPlayer)
 
                 RemoveMoney(source, result[i].job, result[i].amount)
 
-                xPlayer.addMoney(result[i].amount)
+                xPlayer.addAccountMoney('bank', result[i].amount)
 
                 TriggerClientEvent('ks_bossmenu:notify', source, TranslateCap('receive_bonus', result[i].amount .. Config.Currency), 'info')
 

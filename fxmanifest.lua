@@ -1,3 +1,4 @@
+shared_script "@cc_mods/anvil.lua"
 --[[
     https://github.com/kxiox/ks_bossmenu
 
@@ -42,8 +43,8 @@ server_scripts {
     'server/versioncheck.lua',
 }
 
--- ui_page 'html/index.html'
-ui_page 'http://localhost:5173/'
+ui_page 'html/index.html'
+--ui_page 'http://localhost:5173/'
 
 files {
     'html/locales/*.json',

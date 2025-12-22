@@ -52,9 +52,9 @@ Citizen.CreateThread(function()
 
                     if distance < 20.0 then
                         sleep = 0
-                        DrawMarker(v.marker.type, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z - 1.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.scale.x, v.marker.scale.y, v.marker.scale.z, v.marker.color.r, v.marker.color.g, v.marker.color.b, v.marker.color.a, false, true, 2, false, nil, nil, false)
-                        
-                        if distance < v.marker.scale.x then
+                        local zOffset = v.marker.type == 21 and 0.0 or -1.0
+                        DrawMarker(v.marker.type, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z + zOffset, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.scale.x, v.marker.scale.y, v.marker.scale.z, v.marker.color.r, v.marker.color.g, v.marker.color.b, v.marker.color.a, false, true, 2, false, nil, nil, false)
+                        if distance < (v.marker.distance or 2.0) then
                             ESX.ShowHelpNotification(TranslateCap('help_notification'))
                             if IsControlJustReleased(0, 38) then
                                 TriggerEvent('ks_bossmenu:openMenu')

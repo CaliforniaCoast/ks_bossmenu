@@ -46,7 +46,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToSelectedEmployees', function(
             local xTarget = ESX.GetPlayerFromIdentifier(employee.identifier)
             if xTarget then
                 RemoveMoney(source, job.name, amount)
-                xTarget.addMoney(amount)
+                xTarget.addAccountMoney('bank', amount)
                 TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
             else
                 MySQL.insert('INSERT INTO ks_bossmenu_bonus_queue (identifier, amount, job) VALUES (?, ?, ?)', {
@@ -136,7 +136,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToRanks', function(source, cb, 
                         
                         if xTarget then
                             RemoveMoney(source, job.name, amount)
-                            xTarget.addMoney(amount)
+                            xTarget.addAccountMoney('bank', amount)
                             TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
                         else
                             MySQL.insert('INSERT INTO ks_bossmenu_bonus_queue (identifier, amount, job) VALUES (?, ?, ?)', {
@@ -203,7 +203,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllEmployees', function(sourc
                     
                     if xTarget then
                         RemoveMoney(source, job.name, amount)
-                        xTarget.addMoney(amount)
+                        xTarget.addAccountMoney('bank', amount)
                         TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
                     else
                         MySQL.insert('INSERT INTO ks_bossmenu_bonus_queue (identifier, amount, job) VALUES (?, ?, ?)', {
@@ -270,7 +270,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToAllRanks', function(source, c
                     
                     if xTarget then
                         RemoveMoney(source, job.name, amount)
-                        xTarget.addMoney(amount)
+                        xTarget.addAccountMoney('bank', amount)
                         TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
                     else
                         MySQL.insert('INSERT INTO ks_bossmenu_bonus_queue (identifier, amount, job) VALUES (?, ?, ?)', {
@@ -345,7 +345,7 @@ ESX.RegisterServerCallback('ks_bossmenu:giveBonusToOnlineEmployees', function(so
         for _, xTarget in pairs(xPlayers) do
             if xTarget.getJob().name == job.name then
                 RemoveMoney(source, job.name, amount)
-                xTarget.addMoney(amount)
+                xTarget.addAccountMoney('bank', amount)
                 TriggerClientEvent('ks_bossmenu:notify', xTarget.source, TranslateCap('receive_bonus', amount .. Config.Currency), 'info')
             end
         end

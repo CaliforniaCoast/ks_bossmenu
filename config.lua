@@ -14,11 +14,11 @@ Config.Timestamp = 'us'
 
 Config.UnemployedJobName = 'unemployed'
 
-Config.UseTarget = false        -- Use ox_target for the boss menu (resource name: ox_target)
+Config.UseTarget = false -- Use ox_target for the boss menu (resource name: ox_target)
 
-Config.UseJobsCreator = true    -- only for jaksam's jobcreator (resource name: jobs_creator)
+Config.UseJobsCreator = true -- only for jaksam's jobcreator (resource name: jobs_creator)
 
-Config.EnableCommand = true     -- Enable the command to open the boss menu | NEW
+Config.EnableCommand = true -- Enable the command to open the boss menu | NEW
 Config.CommandName = 'bossmenu' -- The name of the command | NEW
 
 Config.Jobs = {
@@ -28,10 +28,22 @@ Config.Jobs = {
         color = 'blue',
         grades = { 15, 14, 13, 12, 11 },
         marker = {
-            type = 21,
-            coords = vector3(-1108.64, -836.68, 34.28),
-            scale = vector3(0.3, 0.3, 0.2),
-            color = { r = 0, g = 0, b = 255, a = 200 },
+          type = 1,
+          coords = vector3(0, 0, 0),
+          scale = vector3(1.5, 1.5, 1.5),
+          color = { r = 0, g = 0, b = 255, a = 200 },
+        },
+    },
+    ['ambulance'] = {
+        society = nil,
+        logo = 'ambulance.png',
+        color = 'light',
+        grades = { 9, 8, 7 },
+        marker = {
+          type = 21,
+          coords = vector3(334.784, -593.677, 43.284),
+          scale = vector3(0.3, 0.3, 0.2),
+          color = { r = 255, g = 255, b = 255, a = 100 },
         },
     },
 }
