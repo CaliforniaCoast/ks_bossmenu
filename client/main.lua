@@ -8,6 +8,7 @@
 
 ESX = exports['es_extended']:getSharedObject()
 
+
 local targetZones = {}
 
 AddEventHandler('esx:playerLoaded', function(playerData)
@@ -26,24 +27,52 @@ Citizen.CreateThread(function()
 
     if Config.UseTarget and GetResourceState('ox_target') == 'started' then
         for jobName, jobConfig in pairs(Config.Jobs) do
-            targetZones[jobName] = exports.ox_target:addBoxZone({
-                coords = vec3(jobConfig.marker.coords.x, jobConfig.marker.coords.y, jobConfig.marker.coords.z),
-                size = vec3(2, 2, 2),
-                rotation = 0,
-                debug = false,
-                options = {
-                    {
-                        name = 'bossmenu:' .. jobName,
-                        event = 'ks_bossmenu:openMenu',
-                        icon = 'fa-solid fa-briefcase', 
-                        label = TranslateCap('ox_target'),
-                        canInteract = function()
-                            return ESX.PlayerData.job.name == jobName and TableContains(jobConfig.grades, ESX.PlayerData.job.grade)
-                        end,
-                        distance = 2
+            -- Check if coords is a table with multiple locations or single location
+            local markerCoords = jobConfig.marker.coords
+            
+            if type(markerCoords) == 'table' and markerCoords[1] then
+                -- Multiple locations
+                for index, coords in pairs(markerCoords) do
+                    targetZones[jobName .. '_' .. index] = exports.ox_target:addBoxZone({
+                        coords = vec3(coords.x, coords.y, coords.z),
+                        size = vec3(2, 2, 2),
+                        rotation = 0,
+                        debug = false,
+                        options = {
+                            {
+                                name = 'bossmenu:' .. jobName .. '_' .. index,
+                                event = 'ks_bossmenu:openMenu',
+                                icon = 'fa-solid fa-briefcase', 
+                                label = TranslateCap('ox_target'),
+                                canInteract = function()
+                                    return ESX.PlayerData.job.name == jobName and TableContains(jobConfig.grades, ESX.PlayerData.job.grade)
+                                end,
+                                distance = 2
+                            }
+                        }
+                    })
+                end
+            else
+                -- Single location
+                targetZones[jobName] = exports.ox_target:addBoxZone({
+                    coords = vec3(markerCoords.x, markerCoords.y, markerCoords.z),
+                    size = vec3(2, 2, 2),
+                    rotation = 0,
+                    debug = false,
+                    options = {
+                        {
+                            name = 'bossmenu:' .. jobName,
+                            event = 'ks_bossmenu:openMenu',
+                            icon = 'fa-solid fa-briefcase', 
+                            label = TranslateCap('ox_target'),
+                            canInteract = function()
+                                return ESX.PlayerData.job.name == jobName and TableContains(jobConfig.grades, ESX.PlayerData.job.grade)
+                            end,
+                            distance = 2
+                        }
                     }
-                }
-            })
+                })
+            end
         end
     else
         while true do
@@ -53,16 +82,37 @@ Citizen.CreateThread(function()
                 if ESX.PlayerData.job and ESX.PlayerData.job.name then
                     if ESX.PlayerData.job.name == k and TableContains(v.grades, ESX.PlayerData.job.grade) then
                         local coords = GetEntityCoords(PlayerPedId())
-                        local distance = GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z, true)
+                        local markerCoords = v.marker.coords
+                        
+                        -- Check if coords is a table with multiple locations or single location
+                        local coordsTable = {}
+                        if type(markerCoords) == 'table' and markerCoords[1] then
+                            coordsTable = markerCoords
+                        else
+                            coordsTable = {markerCoords}
+                        end
+                        
+                        -- Loop through all coordinates
+                        for index, markerPos in pairs(coordsTable) do
+                            local distance = GetDistanceBetweenCoords(coords.x, coords.y, coords.z, markerPos.x, markerPos.y, markerPos.z, true)
 
-                        if distance < 20.0 then
-                            sleep = 1
-                            local zOffset = v.marker.type == 21 and 0.0 or -1.0
-                            DrawMarker(v.marker.type, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z + zOffset, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.scale.x, v.marker.scale.y, v.marker.scale.z, v.marker.color.r, v.marker.color.g, v.marker.color.b, v.marker.color.a, false, true, 2, false, nil, nil, false)
-                            if distance < (v.marker.distance or 2.0) then
-                                ESX.ShowHelpNotification(TranslateCap('help_notification'))
-                                if IsControlJustReleased(0, 38) then
-                                    TriggerEvent('ks_bossmenu:openMenu')
+                            if distance < 20.0 then
+                                sleep = 1
+                                local zOffset = v.marker.type == 21 and 0.0 or -1.0
+                                local marker = lib.marker.new({
+                                    type = v.marker.type,
+                                    coords = markerPos,
+                                    height = v.marker.scale.z + zOffset,
+                                    width = v.marker.scale.x,
+                                    color = { r = v.marker.color.r, g = v.marker.color.g, b = v.marker.color.b, a = v.marker.color.a },
+                                })
+
+                                marker:draw()
+                                if distance < (v.marker.distance or 2.0) then
+                                    ESX.ShowHelpNotification(TranslateCap('help_notification'))
+                                    if IsControlJustReleased(0, 38) then
+                                        TriggerEvent('ks_bossmenu:openMenu')
+                                    end
                                 end
                             end
                         end

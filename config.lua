@@ -29,7 +29,11 @@ Config.Jobs = {
         grades = { 15, 14, 13, 12, 11 },
         marker = {
           type = 1,
-          coords = vector3(0, 0, 0),
+          coords = {
+              [1] = vector3(0, 0, 0),
+              [2] = vector3(0, 0, 0),
+              [3] = vector3(0, 0, 0),
+          },
           scale = vector3(1.5, 1.5, 1.5),
           color = { r = 0, g = 0, b = 255, a = 200 },
         },
@@ -41,7 +45,9 @@ Config.Jobs = {
         grades = { 9, 8, 7 },
         marker = {
           type = 21,
-          coords = vector3(334.784, -593.677, 43.284),
+          coords = {
+            [1] = vector3(212.1442, -833.0001, 30.6473),
+          },
           scale = vector3(0.3, 0.3, 0.2),
           color = { r = 255, g = 255, b = 255, a = 100 },
         },
