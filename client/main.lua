@@ -10,6 +10,10 @@ ESX = exports['es_extended']:getSharedObject()
 
 local targetZones = {}
 
+AddEventHandler('esx:playerLoaded', function(playerData)
+    ESX.PlayerData = playerData
+end)
+
 Citizen.CreateThread(function()
     while not ESX.PlayerLoaded do
         Citizen.Wait(100)
@@ -51,7 +55,7 @@ Citizen.CreateThread(function()
                     local distance = GetDistanceBetweenCoords(coords.x, coords.y, coords.z, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z, true)
 
                     if distance < 20.0 then
-                        sleep = 0
+                        sleep = 1
                         local zOffset = v.marker.type == 21 and 0.0 or -1.0
                         DrawMarker(v.marker.type, v.marker.coords.x, v.marker.coords.y, v.marker.coords.z + zOffset, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, v.marker.scale.x, v.marker.scale.y, v.marker.scale.z, v.marker.color.r, v.marker.color.g, v.marker.color.b, v.marker.color.a, false, true, 2, false, nil, nil, false)
                         if distance < (v.marker.distance or 2.0) then
