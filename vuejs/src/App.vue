@@ -381,6 +381,10 @@
     filter: drop-shadow(0 2px 4px rgba(0, 0, 0, 0.3));
   }
 
+  .logo img {
+    border-radius: 8px;
+  }
+
   .nav button {
     width: 100%;
     color: var(--color-200);

@@ -1,4 +1,3 @@
-shared_script "@cc_mods/anvil.lua"
 --[[
     https://github.com/kxiox/ks_bossmenu
 
@@ -54,6 +53,7 @@ files {
     'html/assets/*.js',
     'html/assets/*.png',
     'html/img/*.png',
+    'html/img/*.jpg',
 }
 
 dependencies {

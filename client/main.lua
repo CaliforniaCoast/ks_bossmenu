@@ -108,7 +108,7 @@ Citizen.CreateThread(function()
                                 })
 
                                 marker:draw()
-                                if distance < (v.marker.distance or 2.0) then
+                                if distance < (v.marker.distance or 1.5) then
                                     ESX.ShowHelpNotification(TranslateCap('help_notification'))
                                     if IsControlJustReleased(0, 38) then
                                         TriggerEvent('ks_bossmenu:openMenu')
